@@ -105,7 +105,7 @@ export default {
           router.push({ name: 'Administrador' })
           state.isLoading = false
           modal.close()
-          toast.success(data.token)
+          toast.success('Bem vindo!')
           return
         }
         if (errors.status === 404) {

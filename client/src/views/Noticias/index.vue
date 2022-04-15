@@ -9,13 +9,13 @@
               </svg>
           </button>
            <filter-data v-if="flagFilter" :dropBox="['Ensino Infantil','Ensino Médio','Graduação']" @filtrar="filtrar"/>
-          <card v-for="c in state.cards" :key="c.id" :title="c.NewsTitle" :urlImage="c.urlImage" :description="c.description" :authorName="c.authorName" :id="c.id" :redirect="redirect"/>
+          <card v-for="c in state.cards" :key="c.id" :title="c.NewsTitle" :img="c.urlImage" :resume="c.description" :details="c.authorName" :id="c.id" :redirect="redirect"/>
         </div>
   </main>
 </template>
 
 <script>
-import card from '../../components/Card/index.vue'
+import card from '../../components/Card/LemCard.vue'
 import FilterData from '../../components/Filter/index.vue'
 import { reactive } from 'vue'
 import services from '../../services'

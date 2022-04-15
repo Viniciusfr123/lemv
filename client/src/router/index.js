@@ -8,6 +8,12 @@ const Contato = () => import('../views/Contato/index.vue')
 const SobreNos = () => import('../views/SobreNos/index.vue')
 const Administrador = () => import('../views/Administrador/index.vue')
 const ProjetoSinglePage = () => import('../views/Projetos/singlePage')
+const AdministradorNoticias = () => import('../views/Noticias/admin.vue')
+const AdministradorInicio = () => import('../views/Inicio/admin.vue')
+const AdministradorProjetos = () => import('../views/Projetos/admin.vue')
+const AdministradorAcervo = () => import('../views/Acervo/admin.vue')
+const AdministradorSobreNos = () => import('../views/SobreNos/admin.vue')
+const AdministradorContato = () => import('../views/Contato/admin.vue')
 
 const routes = [
   {
@@ -49,6 +55,36 @@ const routes = [
     path: '/administrador',
     name: 'Administrador',
     component: Administrador
+  },
+  {
+    path: '/administrador/noticias',
+    name: 'AdministradorNoticias',
+    component: AdministradorNoticias
+  },
+  {
+    path: '/administrador/inicio',
+    name: 'AdministradorInício',
+    component: AdministradorInicio
+  },
+  {
+    path: '/administrador/projeto',
+    name: 'AdministradorProjetos',
+    component: AdministradorProjetos
+  },
+  {
+    path: '/administrador/sobrenos',
+    name: 'AdministradorSobreNos',
+    component: AdministradorSobreNos
+  },
+  {
+    path: '/administrador/acervo',
+    name: 'AdministradorAcervo',
+    component: AdministradorAcervo
+  },
+  {
+    path: '/administrador/contato',
+    name: 'AdministradorContato',
+    component: AdministradorContato
   },
   {
     path: '/:pathMatch(.*)',

@@ -1,27 +1,22 @@
 <template>
-<div class="flex" style="font-family: Arial;" x-data="{ open: true }">
-        <div class="sidebar h-screen" style="width: 260px;" x-show="open">
-            <div>
-                <div class="h-screen bg-gray-50">
-                    <div class="" style="font-size: 14px;">
-                        <a href=""
-                             class="h-12 px-4 py-3 text-green-500 tracking-wider block bg-gray-100 font-thin border-b-2 border-gray-800 hover:text-gray-800 hover:bg-gray-200">Geral</a>
-                        <a href=""
-                             class="h-12 px-4 py-3 text-green-500 tracking-wider block bg-gray-100 font-thin border-b-2 border-gray-800 hover:text-gray-800 hover:bg-gray-200">Projetos</a>
-                        <a href=""
-                             class="h-12 px-4 py-3 text-green-500 tracking-wider block bg-gray-100 font-thin border-b-2 border-gray-800 hover:text-gray-800 hover:bg-gray-200">SobreNos</a>
-                        <a href=""
-                            class="h-12 px-4 py-3 text-green-500 tracking-wider block bg-gray-100 font-thin border-b-2 border-gray-800 hover:text-gray-800 hover:bg-gray-200">Noticias</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-</div>
+  <div class="flex flex-col items-center w-3/5 mx-auto px-6 py-8 gap-1">
+    <div class="flex flex-wrap justify-items-center-m-10">
+        <admin-card alias="Início"/>
+        <admin-card alias="Noticias"/>
+        <admin-card alias="SobreNos"/>
+        <admin-card alias="Contato"/>
+        <admin-card alias="Projetos"/>
+        <admin-card alias="Acervo"/>
+    </div>
+  </div>
 
 </template>
 
 <script>
-export default {
+import AdminCard from '../../components/Card/adminCard.vue'
 
+export default {
+  components: { AdminCard }
 }
+
 </script>
