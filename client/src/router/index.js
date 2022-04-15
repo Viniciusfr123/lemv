@@ -63,7 +63,7 @@ const routes = [
   },
   {
     path: '/administrador/inicio',
-    name: 'AdministradorInício',
+    name: 'AdministradorInicio',
     component: AdministradorInicio
   },
   {
