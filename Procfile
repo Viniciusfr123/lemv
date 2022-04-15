@@ -1,1 +1,1 @@
-web: npm run start:prod
+web: npm run serve -- --port 3000:prod
