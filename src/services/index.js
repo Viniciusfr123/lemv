@@ -2,6 +2,8 @@ import axios from 'axios'
 import AuthService from './auth'
 import NewsService from './news'
 import ProjectsService from './projects'
+import PaperService from './paper'
+import MaterialService from './material'
 
 const API_ENVS = {
   prod: '',
@@ -30,5 +32,7 @@ httpClient.interceptors.response.use((response) => {
 export default {
   auth: AuthService(httpClient),
   news: NewsService(httpClient),
-  proj: ProjectsService(httpClient)
+  proj: ProjectsService(httpClient),
+  paper: PaperService(httpClient),
+  material: MaterialService(httpClient)
 }
