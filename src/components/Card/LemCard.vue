@@ -2,13 +2,13 @@
   <div class="bg-white w-80 max-w-3xl sm:w-full sm:p-4 h-auto sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none p-1">
     <div
         :style="{backgroundImage: 'url(\'' + img + '\')'}"
-        class="h-52 sm:h-full sm:w-72 rounded-xl bg-gray-100 bg-center bg-cover hidden lg:block"
+        class="h-52 sm:h-full sm:w-52 rounded-xl bg-gray-100 bg-center bg-cover hidden lg:block"
     ></div>
     <div class="flex sm:flex-1 flex-col gap-2 p-1">
         <h1 class="text-lg sm:text-xl font-semibold  text-gray-600">
             {{title}}
         </h1>
-        <p class="text-gray-500 text-sm sm:text-base line-clamp-3">
+        <p v-if="resumeON" class="text-gray-500 text-sm sm:text-base line-clamp-3">
             {{resume}}
         </p>
         <div class="flex gap-4 mt-auto">
@@ -29,7 +29,7 @@
 import { useRouter } from 'vue-router'
 
 export default {
-  props: ['title', 'img', 'resume', 'details', 'redirect', 'id'],
+  props: ['title', 'img', 'resume', 'details', 'redirect', 'id', 'resumeON'],
 
   setup (props) {
     const router = useRouter()

@@ -9,7 +9,7 @@
             </svg>
           </button>
           <filter-data v-if="flagFilter" :dropBox="['Ensino Infantil','Ensino Médio','Graduação']" @filtrar="filtrar"/>
-        <card v-for="c in state.cards" :key="c.id" :title="c.title" :img="c.urlImage" :resume="c.description" :details="c.authorName" :id="c.id" :redirect="redirect"/>
+        <card v-for="c in state.cards" :key="c.id" :title="c.title" :img="c.urlImage" :resume="c.description" :details="c.authorName" :id="c.id" :redirect="redirect" resumeON="true"/>
       </div>
   </main>
 </template>

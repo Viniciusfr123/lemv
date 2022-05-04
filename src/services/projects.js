@@ -1,7 +1,7 @@
 
 export default httpClient => ({
   getProjects: async () => {
-    const response = await httpClient.get('/projects')
+    const response = await httpClient.get('/project')
     let errors = null
 
     if (!response.data) {
@@ -17,7 +17,7 @@ export default httpClient => ({
     }
   },
   getSingle: async (id) => {
-    const response = await httpClient.get('/projects/' + id)
+    const response = await httpClient.get('/project/' + id)
     let errors = null
 
     if (!response.data) {

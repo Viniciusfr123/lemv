@@ -40,7 +40,7 @@ export default {
       const { data, errors } = await services.proj.getSingle(this.id)
       if (!errors) {
         this.projeto = data
-        console.log(typeof this.projeto.manual)
+        console.log(data)
       } else {
         console.log(errors)
       }

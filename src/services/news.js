@@ -1,7 +1,7 @@
 
 export default httpClient => ({
   getNews: async () => {
-    const response = await httpClient.get('/news')
+    const response = await httpClient.get('/new')
     let errors = null
 
     if (!response.data) {
@@ -17,7 +17,7 @@ export default httpClient => ({
     }
   },
   getSingle: async (id) => {
-    const response = await httpClient.get('/news/' + id)
+    const response = await httpClient.get('/new/' + id)
     let errors = null
 
     if (!response.data) {

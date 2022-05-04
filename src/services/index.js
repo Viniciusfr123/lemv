@@ -4,11 +4,12 @@ import NewsService from './news'
 import ProjectsService from './projects'
 import PaperService from './paper'
 import MaterialService from './material'
+import BookService from './book'
 
 const API_ENVS = {
   prod: '',
   dev: '',
-  local: 'https://60b27e9662ab150017ae2453.mockapi.io/lemv/1/'
+  local: 'https://d5708c2a-fa58-4989-9902-2a6bb6c99f58.mock.pstmn.io'
 
 }
 
@@ -34,5 +35,6 @@ export default {
   news: NewsService(httpClient),
   proj: ProjectsService(httpClient),
   paper: PaperService(httpClient),
-  material: MaterialService(httpClient)
+  material: MaterialService(httpClient),
+  book: BookService(httpClient)
 }

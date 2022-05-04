@@ -4,7 +4,7 @@
   "clickable": true
 }' class="mySwiper">
   <swiper-slide v-for="noticia in noticias" :key="noticia.index">
-    <card :title="noticia.NewsTitle" :img="noticia.urlImage" :details="noticia.date" :resume="noticia.description" :id="noticia.id" redirect="NoticiaSinglePage" />
+    <card :title="noticia.title" :img="noticia.urlImage" :details="noticia.date" :resume="noticia.description" :id="noticia.id" redirect="NoticiaSinglePage" />
   </swiper-slide>
 </swiper>
 </template>
