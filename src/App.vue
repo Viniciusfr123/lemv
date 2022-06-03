@@ -27,6 +27,7 @@ export default {
         component: 'ModalLogin'
       })
     }
+
     return { handleLogin }
   }
 }

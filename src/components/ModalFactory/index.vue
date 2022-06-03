@@ -29,11 +29,17 @@ import { reactive, onMounted, onBeforeMount, defineAsyncComponent } from 'vue'
 import useModal from '../../hooks/useModal'
 
 const ModalLogin = defineAsyncComponent(() => import('../ModalLogin'))
+const ModalUpdateNews = defineAsyncComponent(() => import('../ModalNews/update.vue'))
+const ModalCancel = defineAsyncComponent(() => import('../ModalCancel/index.vue'))
+const ModalCreateNews = defineAsyncComponent(() => import('../ModalNews/create.vue'))
 const DEFAULT_WIDTH = 'w-3/4 lg:w-1/3'
 
 export default {
   components: {
-    ModalLogin
+    ModalLogin,
+    ModalUpdateNews,
+    ModalCancel,
+    ModalCreateNews
   },
   setup () {
     const modal = useModal()
