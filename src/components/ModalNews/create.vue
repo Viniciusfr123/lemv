@@ -17,10 +17,9 @@
         type="text"
         />
 
-        <base-input
+        <base-input-large
         v-model="state.news.description"
         label="Descrição"
-        type="text"
         />
 
         <base-input
@@ -35,10 +34,9 @@
         type="text"
         />
 
-        <base-input
+        <base-input-large
         v-model="state.news.text"
         label="Texto Principal"
-        type="text"
         />
 
         <button :disabled="state.isLoading"
@@ -59,9 +57,10 @@ import { useToast } from 'vue-toastification'
 import useModal from '../../hooks/useModal'
 import services from '../../services'
 import baseInput from '../Form/baseInput.vue'
+import BaseInputLarge from '../Form/baseInputLarge.vue'
 
 export default {
-  components: { baseInput },
+  components: { baseInput, BaseInputLarge },
   props: ['title', 'img', 'resume', 'details', 'id', 'resumeON'],
 
   setup (props) {
@@ -89,11 +88,10 @@ export default {
         state.isLoading = true
         const { data, errors } = await services.news.createOne(state.news)
         if (!errors) {
-          window.localStorage.setItem('token', data.token)
           state.isLoading = false
           modal.close()
-          toast.success('Item criado com sucesso!')
-          return
+          toast.success(`Item ${data.id} criado com sucesso!`)
+          await this.$emit('list')
         }
         state.isLoading = false
       } catch (error) {

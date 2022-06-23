@@ -32,7 +32,7 @@
 <script>
 
 export default {
-  props: ['title', 'img', 'resume', 'details', 'id', 'resumeON'],
+  props: ['title', 'img', 'resume', 'details', 'text', 'id', 'resumeON'],
 
   setup (props) {
 

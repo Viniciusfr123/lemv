@@ -34,7 +34,7 @@ export default httpClient => ({
   },
 
   updateOne: async (id, newsUpdate) => {
-    const response = await httpClient.put('/news/' + id, newsUpdate)
+    const response = await httpClient.put('/news/', newsUpdate)
     let errors = null
 
     if (!response.data) {

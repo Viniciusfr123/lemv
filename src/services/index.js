@@ -9,7 +9,8 @@ import BookService from './book'
 const API_ENVS = {
   prod: '',
   dev: '',
-  local: 'https://d5708c2a-fa58-4989-9902-2a6bb6c99f58.mock.pstmn.io'
+  // local: 'https://d5708c2a-fa58-4989-9902-2a6bb6c99f58.mock.pstmn.io'
+  local: 'https://localhost:44314/api'
 
 }
 

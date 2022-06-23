@@ -17,10 +17,9 @@
         type="text"
         />
 
-        <base-input
+        <base-input-large
         v-model="state.news.description"
         label="Descrição"
-        type="text"
         />
 
         <base-input
@@ -35,10 +34,9 @@
         type="text"
         />
 
-        <base-input
+        <base-input-large
         v-model="state.news.text"
         label="Texto Principal"
-        type="text"
         />
 
         <button :disabled="state.isLoading"
@@ -59,10 +57,11 @@ import { useToast } from 'vue-toastification'
 import useModal from '../../hooks/useModal'
 import services from '../../services'
 import baseInput from '../Form/baseInput.vue'
+import BaseInputLarge from '../Form/baseInputLarge.vue'
 
 export default {
-  components: { baseInput },
-  props: ['title', 'img', 'resume', 'details', 'id', 'resumeON'],
+  components: { baseInput, BaseInputLarge },
+  props: ['title', 'img', 'resume', 'text', 'details', 'id', 'resumeON'],
 
   setup (props) {
     const modal = useModal()
@@ -78,7 +77,7 @@ export default {
         description: props.resume,
         authorName: props.details,
         urlImage: props.img,
-        text: props.details
+        text: props.text
       }
 
     })
@@ -89,14 +88,14 @@ export default {
         state.isLoading = true
         const { data, errors } = await services.news.updateOne(state.news.id, state.news)
         if (!errors) {
-          window.localStorage.setItem('token', data.token)
           state.isLoading = false
           modal.close()
-          toast.success('Item atualizado com sucesso!')
-          return
+          toast.success(`Item ${data.data.id} atualizado com sucesso!`)
+          this.$emit('list')
         }
         state.isLoading = false
       } catch (error) {
+        console.error(error)
         state.isLoading = false
         state.hasErrors = !!error
         toast.error('Ops, ocorreu um erro ao tentar atualizar o item')

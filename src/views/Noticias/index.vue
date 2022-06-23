@@ -46,6 +46,7 @@ export default {
       const { data, errors } = await services.news.getNews()
       if (!errors) {
         this.state.cards = data
+        console.log(data)
       } else {
         console.log(errors)
       }

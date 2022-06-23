@@ -35,7 +35,7 @@ export default {
     async getSingleNew () {
       const { data, errors } = await services.news.getSingle(this.id)
       if (!errors) {
-        this.noticia = data
+        this.noticia = data.data
         console.log(data)
       } else {
         console.log(errors)
