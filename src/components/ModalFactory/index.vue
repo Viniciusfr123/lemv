@@ -32,6 +32,10 @@ const ModalLogin = defineAsyncComponent(() => import('../ModalLogin'))
 const ModalUpdateNews = defineAsyncComponent(() => import('../ModalNews/update.vue'))
 const ModalCancel = defineAsyncComponent(() => import('../ModalCancel/index.vue'))
 const ModalCreateNews = defineAsyncComponent(() => import('../ModalNews/create.vue'))
+const ModalUpdateProject = defineAsyncComponent(() => import('../ModalProject/update.vue'))
+const ModalCreateProject = defineAsyncComponent(() => import('../ModalProject/create.vue'))
+const ModalCreateStegeProject = defineAsyncComponent(() => import('../ModalProject/createStage.vue'))
+const ModalUpdateStageProject = defineAsyncComponent(() => import('../ModalProject/updateStage.vue'))
 const DEFAULT_WIDTH = 'w-3/4 lg:w-1/3'
 
 export default {
@@ -39,7 +43,11 @@ export default {
     ModalLogin,
     ModalUpdateNews,
     ModalCancel,
-    ModalCreateNews
+    ModalCreateNews,
+    ModalUpdateProject,
+    ModalCreateProject,
+    ModalCreateStegeProject,
+    ModalUpdateStageProject
   },
   setup () {
     const modal = useModal()

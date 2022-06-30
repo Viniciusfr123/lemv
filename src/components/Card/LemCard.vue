@@ -32,7 +32,7 @@
 import { useRouter } from 'vue-router'
 
 export default {
-  props: ['title', 'img', 'resume', 'details', 'redirect', 'id', 'resumeON'],
+  props: ['title', 'img', 'resume', 'details', 'redirect', 'id', 'resumeON', 'media'],
 
   setup (props) {
     const router = useRouter()

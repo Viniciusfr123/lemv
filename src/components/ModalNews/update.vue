@@ -91,7 +91,6 @@ export default {
           state.isLoading = false
           modal.close()
           toast.success(`Item ${data.data.id} atualizado com sucesso!`)
-          this.$emit('list')
         }
         state.isLoading = false
       } catch (error) {

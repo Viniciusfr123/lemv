@@ -9,7 +9,7 @@
             </svg>
           </button>
           <filter-data v-if="flagFilter" :dropBox="['Ensino Infantil','Ensino Médio','Graduação']" @filtrar="filtrar"/>
-        <card v-for="c in state.cards" :key="c.id" :title="c.title" :img="c.urlImage" :resume="c.description" :details="c.authorName" :id="c.id" :redirect="redirect" resumeON="true"/>
+        <card v-for="c in state.cards" :key="c.id" :title="c.titulo" :img="c.urlImagem" :resume="c.descricao" :details="c.nomeAutor" :id="c.id" :redirect="redirect" resumeON="true"/>
       </div>
   </main>
 </template>
@@ -41,8 +41,9 @@ export default {
   },
 
   methods: {
-    async getNews (categoria, dataInicio, dataFim) {
+    async getProjects (categoria, dataInicio, dataFim) {
       const { data, errors } = await services.proj.getProjects()
+      console.log(data[0])
       if (!errors) {
         this.state.cards = data
       } else {
@@ -52,14 +53,14 @@ export default {
 
     filtrar (event) {
       if (event) {
-        // this.getNews(event.categoria, event.dataInicio, event.dataFim)
+        // this.getProject(event.categoria, event.dataInicio, event.dataFim)
         console.log(event.categoria, event.dataInicio, event.dataFim)
       }
     }
 
   },
   mounted () {
-    this.getNews()
+    this.getProjects()
   }
 }
 </script>

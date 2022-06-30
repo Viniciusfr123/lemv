@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between">
-    <h1 class="text-2xl font-black text-gray-800"> Criar notícia
+    <h1 class="text-2xl font-black text-gray-800"> Criar projeto
     </h1>
     <button
     class="text-4xl text-gray-600 focus:outline-none"
@@ -12,33 +12,32 @@
     <div class="mt-16">
       <form @submit.prevent="handleSubmit">
         <base-input
-        v-model="state.news.title"
+        v-model="state.project.titulo"
         label="Título"
         type="text"
         />
 
         <base-input-large
-        v-model="state.news.description"
+        v-model="state.project.descricao"
         label="Descrição"
         />
 
         <base-input
-        v-model="state.news.authorName"
+        v-model="state.project.nomeAutor"
         label="Nome do autor"
         type="text"
         />
 
         <base-input
-        v-model="state.news.urlImage"
+        v-model="state.project.urlImagem"
         label="Link da imagem"
         type="text"
         />
 
         <base-input-large
-        v-model="state.news.text"
+        v-model="state.project.texto"
         label="Texto Principal"
         />
-
         <button :disabled="state.isLoading"
         type="submit"
         :class="{'opacity-50': state.isLoading}"
@@ -61,7 +60,6 @@ import BaseInputLarge from '../Form/baseInputLarge.vue'
 
 export default {
   components: { baseInput, BaseInputLarge },
-  props: ['title', 'img', 'resume', 'details', 'id', 'resumeON'],
 
   setup (props) {
     const modal = useModal()
@@ -70,27 +68,27 @@ export default {
     const state = reactive({
       hasErrors: false,
       isLoading: false,
+      editStage: true,
 
-      news: {
-        id: props.id,
-        title: props.title,
-        description: props.resume,
-        authorName: props.details,
-        urlImage: props.img,
-        text: props.details
+      project: {
+        titulo: '',
+        descricao: '',
+        nomeAutor: '',
+        urlImagem: '',
+        texto: '',
+        manual: []
       }
-
     })
 
     async function handleSubmit () {
       try {
         toast.clear()
         state.isLoading = true
-        const { data, errors } = await services.news.createOne(state.news)
+        const { data, errors } = await services.proj.createOne(state.project)
         if (!errors) {
           state.isLoading = false
           modal.close()
-          toast.success(`Item ${data.data.id} criado com sucesso!`)
+          toast.success(`Item ${data.id} criado com sucesso!`)
         }
         state.isLoading = false
       } catch (error) {

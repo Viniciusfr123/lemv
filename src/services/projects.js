@@ -31,5 +31,41 @@ export default httpClient => ({
       data: response.data,
       errors
     }
+  },
+
+  updateOne: async (id, projectUpdate) => {
+    const response = await httpClient.put('/project/', projectUpdate)
+    let errors = null
+
+    if (!response.data) {
+      errors = {
+        status: response.request.status,
+        statusText: response.request.statusText
+      }
+    }
+
+    return {
+      data: response.data,
+      errors
+    }
+  },
+
+  createOne: async (projectCreate) => {
+    const response = await httpClient.post('/project', projectCreate)
+    console.log(JSON.stringify(projectCreate))
+    let errors = null
+
+    if (!response.data) {
+      errors = {
+        status: response.request.status,
+        statusText: response.request.statusText
+      }
+    }
+
+    return {
+      data: response.data,
+      errors
+    }
   }
+
 })

@@ -1,6 +1,6 @@
 
 <template>
-<swiper :navigation="true" :slidesPerView="4" :spaceBetween="30" :pagination='{
+<swiper :navigation="true" :slidesPerView="1" :spaceBetween="30" :pagination='{
   "clickable": true
 }' class="mySwiper">
   <swiper-slide v-for="etapa in manual" :key="etapa.index">

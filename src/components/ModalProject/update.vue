@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-between">
-    <h1 class="text-2xl font-black text-gray-800"> Criar notícia
+    <h1 class="text-2xl font-black text-gray-800"> Atualizar projeto
     </h1>
     <button
     class="text-4xl text-gray-600 focus:outline-none"
@@ -44,7 +44,7 @@
         :class="{'opacity-50': state.isLoading}"
         class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-brand-main focus:outline-nome"
         >
-          Criar
+          Atualizar
         </button>
       </form>
     </div>
@@ -61,7 +61,7 @@ import BaseInputLarge from '../Form/baseInputLarge.vue'
 
 export default {
   components: { baseInput, BaseInputLarge },
-  props: ['title', 'img', 'resume', 'details', 'id', 'resumeON'],
+  props: ['title', 'img', 'resume', 'text', 'details', 'id', 'resumeON'],
 
   setup (props) {
     const modal = useModal()
@@ -77,7 +77,7 @@ export default {
         description: props.resume,
         authorName: props.details,
         urlImage: props.img,
-        text: props.details
+        text: props.text
       }
 
     })
@@ -86,17 +86,19 @@ export default {
       try {
         toast.clear()
         state.isLoading = true
-        const { data, errors } = await services.news.createOne(state.news)
+        const { data, errors } = await services.news.updateOne(state.news.id, state.news)
         if (!errors) {
           state.isLoading = false
           modal.close()
-          toast.success(`Item ${data.data.id} criado com sucesso!`)
+          toast.success(`Item ${data.data.id} atualizado com sucesso!`)
+          this.$emit('list')
         }
         state.isLoading = false
       } catch (error) {
+        console.error(error)
         state.isLoading = false
         state.hasErrors = !!error
-        toast.error('Ops, ocorreu um erro ao tentar criar o item')
+        toast.error('Ops, ocorreu um erro ao tentar atualizar o item')
       }
     }
 
