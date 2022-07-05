@@ -43,7 +43,7 @@ export default {
   methods: {
     async getProjects (categoria, dataInicio, dataFim) {
       const { data, errors } = await services.proj.getProjects()
-      console.log(data[0])
+      console.log(data)
       if (!errors) {
         this.state.cards = data
       } else {

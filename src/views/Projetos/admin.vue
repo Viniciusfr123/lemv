@@ -16,9 +16,7 @@
           :id="c.id"
           :manual="c.manual"
           resumeON="true"
-          @ProjectUpdate="updateProject($event)"
-          @projectCreateStage="createStage($event)"
-          @ProjectUpdateStage="updateStage($event)"
+          @ProjectUpdate="pushtoUpdateProject($event.id)"
           @ProjectDelete="deleteProject($event)"
           />
         </div>
@@ -31,11 +29,14 @@ import { reactive } from 'vue'
 import services from '../../services'
 import useModal from './../../hooks/useModal'
 import IconButton from '../../components/Button/iconButton.vue'
+import { useRouter } from 'vue-router'
 
 export default {
   components: { card, IconButton },
 
   setup () {
+    const router = useRouter()
+
     const payload = {}
     const modal = useModal()
     const cards = []
@@ -53,21 +54,6 @@ export default {
       }
     }
 
-    function createStage () {
-      modal.open({
-        component: 'ModalCreateStegeProject',
-        status: true
-      })
-    }
-
-    function updateStage (props) {
-      modal.open({
-        component: 'ModalUpdateStageProject',
-        status: true,
-        props: props
-      })
-    }
-
     function updateProject (props) {
       modal.open({
         component: 'ModalUpdateProject',
@@ -77,15 +63,16 @@ export default {
     }
 
     function createProject () {
-      modal.open({
-        component: 'ModalCreateProject',
-        status: true
-      })
+      router.push({ name: 'ProjetoCreatePage' })
+    }
+
+    function pushtoUpdateProject (id) {
+      router.push({ name: 'ProjetoUpdatePage', params: { id: id } })
     }
 
     function deleteProject (props) {
       modal.open({
-        component: 'ModalCancel',
+        component: 'ModalDeleteProject',
         status: true,
         props: props
       })
@@ -96,8 +83,7 @@ export default {
       updateProject,
       deleteProject,
       createProject,
-      createStage,
-      updateStage,
+      pushtoUpdateProject,
       getProject
     }
   },

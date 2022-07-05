@@ -15,6 +15,8 @@ const AdministradorProjetos = () => import('../views/Projetos/admin.vue')
 const AdministradorAcervo = () => import('../views/Acervo/admin.vue')
 const AdministradorSobreNos = () => import('../views/SobreNos/admin.vue')
 const AdministradorContato = () => import('../views/Contato/admin.vue')
+const ProjetoCreatePage = () => import('../views/Projetos/create.vue')
+const ProjetoUpdatePage = () => import('../views/Projetos/update.vue')
 
 const routes = [
   {
@@ -36,6 +38,16 @@ const routes = [
     path: '/projetos',
     name: 'Projetos',
     component: Projetos
+  },
+  {
+    path: '/projetos/create/',
+    name: 'ProjetoCreatePage',
+    component: ProjetoCreatePage
+  },
+  {
+    path: '/projetos/update/:id',
+    name: 'ProjetoUpdatePage',
+    component: ProjetoUpdatePage
   },
   {
     path: '/projetos/singlepage/:id',

@@ -10,7 +10,7 @@
                 <span class="ml-auto text-gray-900">{{projeto.nomeAutor}}</span>
               </div>
           </div>
-        <img alt="Imagem Projeto" class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded" :src="projeto.urlImagem">
+        <img alt="Imagem Projeto" class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded" :src="projeto.urlImagem ?? 'https://pps.whatsapp.net/v/t61.24694-24/70374212_645198842715252_6571058794287476047_n.jpg?ccb=11-4&oh=480829809c1a4356d19b0a236cbacc3e&oe=62CE197B'">
       </div>
       <div class="lg:w-4/5 mx-auto flex flex-wrap py-10">
       <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Tutorial</h1>

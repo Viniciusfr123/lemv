@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white w-80 max-w-3xl sm:w-full sm:p-4 h-auto sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none p-1">
     <div
-        :style="{backgroundImage: 'url(\'' + img + '\')'}"
+        :style="{backgroundImage: 'url(\'' + img ?? 'https://pps.whatsapp.net/v/t61.24694-24/70374212_645198842715252_6571058794287476047_n.jpg?ccb=11-4&oh=480829809c1a4356d19b0a236cbacc3e&oe=62CE197B' + '\')'}"
         class="h-52 sm:h-50 sm:w-52 rounded-xl bg-gray-100 bg-center bg-cover hidden lg:block"
     ></div>
     <div class="flex sm:flex-1 flex-col gap-2 p-1">
@@ -32,8 +32,25 @@
 import { useRouter } from 'vue-router'
 
 export default {
-  props: ['title', 'img', 'resume', 'details', 'redirect', 'id', 'resumeON', 'media'],
-
+  props: {
+    title: {
+    },
+    img: {
+      default: 'https://pps.whatsapp.net/v/t61.24694-24/70374212_645198842715252_6571058794287476047_n.jpg?ccb=11-4&oh=480829809c1a4356d19b0a236cbacc3e&oe=62CE197B'
+    },
+    resume: {
+    },
+    details: {
+    },
+    redirect: {
+    },
+    id: {
+    },
+    resumeON: {
+    },
+    media: {
+    }
+  },
   setup (props) {
     const router = useRouter()
 

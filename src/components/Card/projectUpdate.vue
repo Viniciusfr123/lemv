@@ -19,14 +19,6 @@
             class='ml-auto text-brand-main flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-yellow-500 hover:text-white transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'>
             <span>Atualizar</span>
         </button>
-        <button v-on:click="() => $emit('projectUpdateStage', $props)"
-            class='ml-auto text-brand-main flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-yellow-500 hover:text-white transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'>
-            <span>Att. manual</span>
-        </button>
-        <button v-on:click="() => $emit('projectCreateStage', $props)"
-            class='ml-auto text-brand-main flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-yellow-500 hover:text-white transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'>
-            <span>Add etapa</span>
-        </button>
         <button v-on:click="() => $emit('projectDelete',  $props)"
             class='ml-auto text-brand-main flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-red-500 hover:text-white transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'>
             <span>Deletar</span>

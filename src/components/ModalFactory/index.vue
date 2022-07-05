@@ -31,6 +31,7 @@ import useModal from '../../hooks/useModal'
 const ModalLogin = defineAsyncComponent(() => import('../ModalLogin'))
 const ModalUpdateNews = defineAsyncComponent(() => import('../ModalNews/update.vue'))
 const ModalCancel = defineAsyncComponent(() => import('../ModalCancel/index.vue'))
+const ModalDeleteProject = defineAsyncComponent(() => import('../ModalProject/delete.vue'))
 const ModalCreateNews = defineAsyncComponent(() => import('../ModalNews/create.vue'))
 const ModalUpdateProject = defineAsyncComponent(() => import('../ModalProject/update.vue'))
 const ModalCreateProject = defineAsyncComponent(() => import('../ModalProject/create.vue'))
@@ -47,7 +48,8 @@ export default {
     ModalUpdateProject,
     ModalCreateProject,
     ModalCreateStegeProject,
-    ModalUpdateStageProject
+    ModalUpdateStageProject,
+    ModalDeleteProject
   },
   setup () {
     const modal = useModal()

@@ -10,7 +10,7 @@
                 <span class="ml-auto text-gray-900">{{noticia.authorName}}</span>
               </div>
           </div>
-        <img alt="Imagem singlePage Noticia" class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded" :src="noticia.urlImage">
+        <img alt="Imagem singlePage Noticia" class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded" :src="noticia.urlImage ?? 'https://pps.whatsapp.net/v/t61.24694-24/70374212_645198842715252_6571058794287476047_n.jpg?ccb=11-4&oh=480829809c1a4356d19b0a236cbacc3e&oe=62CE197B'">
       </div>
   </div>
 </section>

@@ -15,12 +15,12 @@
     "deploy": "git push heroku master"
   },
   "dependencies": {
+    "@tiptap/starter-kit": "^2.0.0-beta.190",
+    "@tiptap/vue-3": "^2.0.0-beta.96",
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "express": "^4.17.3",
-    "node-sass": "^5.0.0",
-    "sass-loader": "^10.1.1",
     "serve-static": "^1.15.0",
     "swiper": "^6.8.1",
     "tiny-emitter": "^2.1.0",
@@ -50,7 +50,9 @@
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^7.0.0-0",
     "lint-staged": "^9.5.0",
+    "node-sass": "^5.0.0",
     "postcss": "^7.0.36",
+    "sass-loader": "^10.3.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
     "typescript": "~3.9.3",
     "vue-jest": "^5.0.0-0"
