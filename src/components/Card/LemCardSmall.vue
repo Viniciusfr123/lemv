@@ -33,7 +33,7 @@ export default {
     async getFile () {
       switch (this.type) {
         case 'paper': {
-          const { data, errors } = await services.paper.downloadSingle(this.id)
+          const { data, errors } = await services.file.download(this.id)
           if (!errors) {
             this.toDownloadFile(data)
           } else {

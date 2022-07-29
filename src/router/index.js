@@ -17,6 +17,8 @@ const AdministradorSobreNos = () => import('../views/SobreNos/admin.vue')
 const AdministradorContato = () => import('../views/Contato/admin.vue')
 const ProjetoCreatePage = () => import('../views/Projetos/create.vue')
 const ProjetoUpdatePage = () => import('../views/Projetos/update.vue')
+const NoticiasCreatePage = () => import('../views/Noticias/create.vue')
+const NoticiasUpdatePage = () => import('../views/Noticias/update.vue')
 
 const routes = [
   {
@@ -28,6 +30,16 @@ const routes = [
     path: '/noticias',
     name: 'Noticias',
     component: Noticias
+  },
+  {
+    path: '/noticias/create',
+    name: 'NoticiasCreatePage',
+    component: NoticiasCreatePage
+  },
+  {
+    path: '/noticias/update/:id',
+    name: 'NoticiasUpdatePage',
+    component: NoticiasUpdatePage
   },
   {
     path: '/noticias/singlepage/:id',

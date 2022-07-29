@@ -33,7 +33,7 @@ export default httpClient => ({
     }
   },
   downloadSingle: async (id) => {
-    const response = await httpClient.get('/book/file/' + id)
+    const response = await httpClient.get('/book/file/' + id, { responseType: 'blob' })
     let errors = null
 
     if (!response.data) {
