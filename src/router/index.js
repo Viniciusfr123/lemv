@@ -19,6 +19,10 @@ const ProjetoCreatePage = () => import('../views/Projetos/create.vue')
 const ProjetoUpdatePage = () => import('../views/Projetos/update.vue')
 const NoticiasCreatePage = () => import('../views/Noticias/create.vue')
 const NoticiasUpdatePage = () => import('../views/Noticias/update.vue')
+const CompetencePage = () => import('../views/Competencias/index.vue')
+const AdministradorCompetencias = () => import('../views/Competencias/admin.vue')
+const CompetenciasCreatePage = () => import('../views/Competencias/create.vue')
+const CompetenciasUpdatePage = () => import('../views/Competencias/update.vue')
 
 const routes = [
   {
@@ -115,6 +119,26 @@ const routes = [
     path: '/administrador/contato',
     name: 'AdministradorContato',
     component: AdministradorContato
+  },
+  {
+    path: '/competencias',
+    name: 'CompetencePage',
+    component: CompetencePage
+  },
+  {
+    path: '/administrador/competencias',
+    name: 'AdministradorCompetencias',
+    component: AdministradorCompetencias
+  },
+  {
+    path: '/competencias/update/:id',
+    name: 'CompetenciasUpdatePage',
+    component: CompetenciasUpdatePage
+  },
+  {
+    path: '/competencias/create',
+    name: 'CompetenciasCreatePage',
+    component: CompetenciasCreatePage
   },
   {
     path: '/:pathMatch(.*)',

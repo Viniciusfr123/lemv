@@ -13,6 +13,7 @@
                 <router-link to="/noticias" class="font-medium text-brand-main hover:text-gray-900">Notícias</router-link>
                 <router-link to="/acervo" class="font-medium text-brand-main hover:text-gray-900">Acervo</router-link>
                 <router-link to="/sobrenos" class="font-medium text-brand-main hover:text-gray-900">Sobre nós</router-link>
+                <router-link to="/Competencias" class="font-medium text-brand-main hover:text-gray-900">BNCC</router-link>
                 <router-link to="/contato" class="font-medium text-brand-main hover:text-gray-900">Contato</router-link>
             </div>
         </nav>

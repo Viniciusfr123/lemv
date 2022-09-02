@@ -37,6 +37,12 @@
         v-model="state.news.text"
         label="Texto Principal"
         />
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Competências</span>
+          <select-input label="teste" :options="state.cards" @currentSelect="updateSelectCompetence($event)"/>
+          <span class="text-lg font-medium text-gray-600">Abilidades</span>
+          <checkbox :options="state.abilityOptions" @updateState="updateSelectAbility($event)"/>
+        </label>
 
         <button :disabled="state.isLoading"
         type="submit"
@@ -58,17 +64,27 @@ import { useToast } from 'vue-toastification'
 import services from '../../services'
 import baseInput from '../../components/Form/baseInput.vue'
 import baseInputLarge from '../../components/Form/baseInputLarge.vue'
+import selectInput from '../../components/Form/selectInput.vue'
+import Checkbox from '../../components/Form/checkbox.vue'
 
 export default {
-  components: { baseInput, baseInputLarge },
+  components: { baseInput, baseInputLarge, selectInput, Checkbox },
   props: ['title', 'img', 'resume', 'details', 'id', 'resumeON', 'media'],
 
   setup (props) {
     const file = ref(null)
     const toast = useToast()
     const router = useRouter()
+    const cards = []
+    const abilityOptions = []
+    let selectCompetence
+    const currentAbilities = []
 
     const state = reactive({
+      cards,
+      abilityOptions,
+      currentAbilities,
+      selectCompetence,
       file: file,
       hasErrors: false,
       isLoading: false,
@@ -79,7 +95,8 @@ export default {
         description: props.resume,
         authorName: props.details,
         text: props.details,
-        media: props.media
+        media: props.media,
+        skill: { code: currentAbilities, abilities: currentAbilities }
       }
 
     })
@@ -113,12 +130,45 @@ export default {
       }
     }
 
+    async function getSkills () {
+      const { data, errors } = await services.skill.getAll()
+      if (!errors) {
+        this.state.cards = data
+        console.log(data)
+      } else {
+        console.log(errors)
+      }
+    }
+
+    function updateSelectCompetence (value) {
+      console.log({ cards: state.cards })
+      state.selectCompetence = value
+      console.log({ selected: state.selectCompetence })
+
+      var competence = state.cards.find(c => c.code === state.selectCompetence)
+      console.log(competence)
+
+      state.abilityOptions = competence.abilities
+    }
+
+    function updateSelectAbility (value) {
+      // console.log({ event: value })
+      state.currentAbilities = value
+    }
+
     return {
       state,
       handleSubmit,
       handleFileUpload,
-      file
+      file,
+      getSkills,
+      updateSelectCompetence,
+      updateSelectAbility
     }
+  },
+
+  mounted () {
+    this.getSkills()
   }
 
 }

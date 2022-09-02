@@ -5,6 +5,8 @@ import ProjectsService from './projects'
 import PaperService from './paper'
 import MaterialService from './material'
 import BookService from './book'
+import FileService from './file'
+import SkillService from './skill'
 
 const API_ENVS = {
   prod: '',
@@ -37,5 +39,7 @@ export default {
   proj: ProjectsService(httpClient),
   paper: PaperService(httpClient),
   material: MaterialService(httpClient),
-  book: BookService(httpClient)
+  book: BookService(httpClient),
+  file: FileService(httpClient),
+  skill: SkillService(httpClient)
 }

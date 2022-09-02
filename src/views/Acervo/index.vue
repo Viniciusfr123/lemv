@@ -1,76 +1,147 @@
 <template>
-<section class="flex flex-col items-center w-full mx-auto px-6 py-8 gap-1 text-gray-600 body-font">
-  <h1 class="text-4xl font-black justify-center text-black">Acervo</h1>
-  <div class="container px-5 py-5 mx-auto flex flex-wrap flex-col">
-    <div class="flex mx-auto flex-wrap">
-      <a v-if="state.Materiais" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium bg-gray-100 inline-flex items-center leading-none border-indigo-500 text-indigo-500 tracking-wider rounded-t">
-        Materiais
-      </a>
-      <a v-else v-on:click="changeSelectSection('Materiais')" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider">
-        Materiais
-      </a>
-      <a v-if="state.Livros" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium bg-gray-100 inline-flex items-center leading-none border-indigo-500 text-indigo-500 tracking-wider rounded-t">
-        Livros
-      </a>
-      <a v-else v-on:click="changeSelectSection('Livros')" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider">
-        Livros
-      </a>
-      <a v-if="state.Artigos" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium bg-gray-100 inline-flex items-center leading-none border-indigo-500 text-indigo-500 tracking-wider rounded-t">
-        Artigos
-      </a>
-      <a v-else v-on:click="changeSelectSection('Artigos')" class="sm:px-6 py-3 w-1/2 sm:w-auto justify-center sm:justify-start border-b-2 title-font font-medium inline-flex items-center leading-none border-gray-200 hover:text-gray-900 tracking-wider">
-        Artigos
-      </a>
-    </div>
-      <section-artigos v-if="state.Artigos"/>
-      <section-livros v-if="state.Livros"/>
-      <section-materiais v-if="state.Materiais"/>
-  </div>
-</section>
+  <main class="flex-col ">
+        <div class="flex flex-col items-center w-full mx-auto px-6 py-8 gap-1">
+          <h1 class="text-4xl font-black text-black">Acervo</h1>
+          <input
+            id="search"
+            v-model="state.searchPayload"
+            type="search"
+            class="field w-1/3 bg-gray-100 bg-opacity-50 rounded border border-green-300 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+            placeholder="Filtrar..."
+          />
+          <card v-for="c in filterList()" :key="c.id" :title="c.title" :resume="c.resume" :details="c.auth" :redirect="redirect" :type="c.type" resumeON="true" :media="c.media"/>
+        </div>
+  </main>
 </template>
 
 <script>
-import { reactive } from '@vue/reactivity'
-import sectionLivros from './Livros.vue'
-import sectionArtigos from './Artigos.vue'
-import sectionMateriais from './Materiais.vue'
+import card from '../../components/Card/LemCard.vue'
+import { reactive } from 'vue'
+import services from '../../services'
 
 export default {
-  components: { sectionLivros, sectionArtigos, sectionMateriais },
+  components: { card },
 
   setup () {
+    const redirect = 'AcervoSinglePage'
+    const searchPayload = ''
+    const cards = [
+      {
+        id: 1,
+        title: 'Acervo Teste 1',
+        resume: 'Acervo Testes resume',
+        details: 'Acervo Teste details',
+        media: null,
+        classification: 'LIVRE',
+        type: 'livro',
+        skill: {},
+        auth: 'Thalles'
+      },
+      {
+        id: 2,
+        title: 'Acervo Teste 2',
+        resume: 'Acervo Testes resume',
+        details: 'Acervo Teste details',
+        media: null,
+        classification: 'LIVRE',
+        type: 'filme',
+        skill: {},
+        auth: 'Lucas'
+      },
+      {
+        id: 3,
+        title: 'Acervo Teste 3',
+        resume: 'Acervo Testes resume',
+        details: 'Acervo Teste details',
+        media: null,
+        classification: 'LIVRE',
+        type: 'artigo',
+        skill: {},
+        auth: 'Leonardo'
+      },
+      {
+        id: 4,
+        title: 'Acervo Teste 3',
+        resume: 'Acervo Testes resume',
+        details: 'Acervo Teste details',
+        media: null,
+        classification: 'LIVRE',
+        type: 'material-didático-pedagógicos',
+        skill: {},
+        auth: 'Leonardo'
+      },
+      {
+        id: 5,
+        title: 'Acervo Teste 3',
+        resume: 'Acervo Testes resume',
+        details: 'Acervo Teste details',
+        media: null,
+        classification: 'LIVRE',
+        type: 'filme',
+        skill: {},
+        auth: 'Leonardo'
+      },
+      {
+        id: 6,
+        title: 'Acervo Teste 3',
+        resume: 'Acervo Testes resume',
+        details: 'Acervo Teste details',
+        media: null,
+        classification: 'LIVRE',
+        type: 'video',
+        skill: {},
+        auth: 'Leonardo'
+      },
+      {
+        id: 7,
+        title: 'Acervo Teste 3',
+        resume: 'Acervo Testes resume',
+        details: 'Acervo Teste details',
+        media: null,
+        classification: 'LIVRE',
+        type: 'revista',
+        skill: {},
+        auth: 'Leonardo'
+      }
+    ]
     const state = reactive({
-      sectionOn: 'Materiais',
-      Materiais: true,
-      Livros: false,
-      Artigos: false
+      cards,
+      searchPayload
     })
 
-    function changeSelectSection (sectioOn) {
-      switch (sectioOn) {
-        case 'Materiais':
-          state.Livros = false
-          state.Artigos = false
-          state.Materiais = true
-          break
-        case 'Livros':
-          state.Materiais = false
-          state.Artigos = false
-          state.Livros = true
-          break
-        case 'Artigos':
-          state.Livros = false
-          state.Materiais = false
-          state.Artigos = true
-          break
+    function filterList () {
+      if (this.state.searchPayload !== '') {
+        console.log(this.state.searchPayload)
+        return this.state.cards.filter((item) =>
+          `${item.title} ${item.auth} ${item.type}`.toLowerCase()
+            .includes(this.state.searchPayload.toLowerCase())
+        )
+      } else {
+        return this.state.cards
       }
     }
 
-    return {
-      state,
-      changeSelectSection
+    // TODO PEDIR UMA ROTA QUE JUNTA MATERIAS LIVROS E ARTIGOS
+    async function getAcervo () {
+      const { data, errors } = await services.acervo.getAcervo()
+      if (!errors) {
+        this.state.cards.push(...data)
+      } else {
+        console.log(errors)
+      }
     }
-  }
+    // TODO PEDIR UMA ROTA QUE JUNTA MATERIAS LIVROS E ARTIGOS
 
+    return {
+      getAcervo,
+      filterList,
+      state,
+      redirect
+    }
+  },
+
+  mounted () {
+    // this.getAcervo()
+  }
 }
 </script>

@@ -7,6 +7,7 @@
         <admin-card alias="Contato"/>
         <admin-card alias="Projetos"/>
         <admin-card alias="Acervo"/>
+        <admin-card alias="Competencias"/>
     </div>
   </div>
 

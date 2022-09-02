@@ -37,6 +37,7 @@ const ModalUpdateProject = defineAsyncComponent(() => import('../ModalProject/up
 const ModalCreateProject = defineAsyncComponent(() => import('../ModalProject/create.vue'))
 const ModalCreateStegeProject = defineAsyncComponent(() => import('../ModalProject/createStage.vue'))
 const ModalUpdateStageProject = defineAsyncComponent(() => import('../ModalProject/updateStage.vue'))
+const ModalDeleteSkill = defineAsyncComponent(() => import('../ModalCancel/skill.vue'))
 const DEFAULT_WIDTH = 'w-3/4 lg:w-1/3'
 
 export default {
@@ -49,7 +50,8 @@ export default {
     ModalCreateProject,
     ModalCreateStegeProject,
     ModalUpdateStageProject,
-    ModalDeleteProject
+    ModalDeleteProject,
+    ModalDeleteSkill
   },
   setup () {
     const modal = useModal()
