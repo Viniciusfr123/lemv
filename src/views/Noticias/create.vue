@@ -134,6 +134,7 @@ export default {
       const { data, errors } = await services.skill.getAll()
       if (!errors) {
         this.state.cards = data
+        this.state.abilityOptions = data[0].abilities
         console.log(data)
       } else {
         console.log(errors)

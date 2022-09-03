@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  props: ['label', 'options'],
+  props: ['options'],
 
   setup (props) {
     function onChange (e) {

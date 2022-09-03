@@ -35,6 +35,13 @@
         label="Texto Principal"
         />
 
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Competências</span>
+          <select-input label="teste" :options="state.skills" @currentSelect="updateSelectCompetence($event)"/>
+          <span class="text-lg font-medium text-gray-600">Abilidades</span>
+          <checkbox :options="state.abilityOptions" @updateState="updateSelectAbility($event)"/>
+        </label>
+
         <div class="mt-4 mx-4">
           <span class="text-lg font-medium text-gray-600"> Etapa Manual </span>
           <form @submit.prevent="handleStage">
@@ -57,7 +64,7 @@
             <button :disabled="state.isLoading"
             type="submit"
             :class="{'opacity-50': state.isLoading}"
-            class="absolute bottom-0 right-96 px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-brand-main focus:outline-nome"
+            class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-brand-main focus:outline-nome"
             >
             Add etapa
             </button>
@@ -67,7 +74,7 @@
         <button :disabled="state.isLoading"
         type="submit"
         :class="{'opacity-50': state.isLoading}"
-        class="absolute bottom-0 right-64 px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-brand-main focus:outline-nome"
+        class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-brand-main focus:outline-nome"
         >
           Criar
         </button>
@@ -90,12 +97,18 @@ import { useToast } from 'vue-toastification'
 import services from '../../services'
 import baseInput from '../../components/Form/baseInput.vue'
 import BaseInputLarge from '../../components/Form/baseInputLarge.vue'
+import selectInput from '../../components/Form/selectInput.vue'
+import Checkbox from '../../components/Form/checkbox.vue'
 
 export default {
-  components: { baseInput, BaseInputLarge },
+  components: { baseInput, BaseInputLarge, selectInput, Checkbox },
 
   setup (props) {
     const toast = useToast()
+    const skills = []
+    const abilityOptions = []
+    let selectCompetence
+    const currentAbilities = []
     const router = useRouter()
 
     const state = reactive({
@@ -108,33 +121,20 @@ export default {
         descricao: '',
         materiais: []
       },
-
+      skills,
+      abilityOptions,
+      selectCompetence,
+      currentAbilities,
       project: {
         titulo: '',
         descricao: '',
         nomeAutor: '',
         urlImagem: '',
         texto: '',
-        manual: []
+        manual: [],
+        skill: { code: '', abilities: [] }
       }
     })
-
-    async function handleSubmit () {
-      // try {
-      //   state.isLoading = true
-      //   const { data, errors } = await services.proj.createOne(state.project)
-      //   if (!errors) {
-      //     state.isLoading = false
-      //     toast.success(`Item ${data.data.id} criado com sucesso!`)
-      //     // todo push admin/project/index
-      //   }
-      //   state.isLoading = false
-      // } catch (error) {
-      //   state.isLoading = false
-      //   state.hasErrors = !!error
-      //   toast.error('Ops, ocorreu um erro ao tentar criar o item')
-      // }
-    }
 
     function handleStage () {
       state.project.manual.push({ ...state.stageDto })
@@ -165,12 +165,42 @@ export default {
       }
     }
 
+    async function getSkills () {
+      const { data, errors } = await services.skill.getAll()
+      if (!errors) {
+        this.state.skills = data
+        this.state.abilityOptions = data[0].abilities
+      } else {
+        console.log(errors)
+      }
+    }
+
+    function updateSelectCompetence (value) {
+      state.selectCompetence = value
+      state.project.skill.code = value
+
+      var competence = state.skills.find(c => c.code === state.selectCompetence)
+
+      state.abilityOptions = competence.abilities
+    }
+
+    function updateSelectAbility (value) {
+      state.currentAbilities = value
+      state.project.skill.abilities = value
+    }
+
     return {
       state,
       handleStage,
       handleProject,
-      handleSubmit
+      getSkills,
+      updateSelectCompetence,
+      updateSelectAbility
     }
+  },
+
+  mounted () {
+    this.getSkills()
   }
 
 }
