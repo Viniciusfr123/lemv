@@ -16,7 +16,7 @@
           @list="getNews()"
           :key="c.id"
           :title="c.title"
-          :img="c.urlImage"
+          :media="c.media"
           :resume="c.description"
           :details="c.authorName"
           :text="c.text"

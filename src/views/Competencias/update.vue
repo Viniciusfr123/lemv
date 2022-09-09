@@ -5,7 +5,7 @@
   </div>
 
   <div>
-    <div class="mt-16 mx-64">
+    <div class="mt-16 mx-2 md:mx-32 lg:mx-64">
       <form
        @submit.prevent="handleSubmit">
         <base-input

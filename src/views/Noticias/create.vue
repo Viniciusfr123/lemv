@@ -5,7 +5,7 @@
   </div>
 
   <div>
-    <div class="mt-16 mx-64">
+    <div class="mt-16 mx-2 md:mx-32 lg:mx-64">
       <form
        v-on:uploadImg="setMedia($event)"
        @submit.prevent="handleSubmit">
@@ -39,7 +39,7 @@
         />
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Competências</span>
-          <select-input label="teste" :options="state.cards" @currentSelect="updateSelectCompetence($event)"/>
+          <select-input :options="state.skills" @currentSelect="updateSelectCompetence($event)"/>
           <span class="text-lg font-medium text-gray-600">Abilidades</span>
           <checkbox :options="state.abilityOptions" @updateState="updateSelectAbility($event)"/>
         </label>
@@ -75,13 +75,13 @@ export default {
     const file = ref(null)
     const toast = useToast()
     const router = useRouter()
-    const cards = []
+    const skills = []
     const abilityOptions = []
-    let selectCompetence
-    const currentAbilities = []
+    let selectCompetence // competencia selecionada
+    const currentAbilities = [] // lista abilidades selecionadas
 
     const state = reactive({
-      cards,
+      skills,
       abilityOptions,
       currentAbilities,
       selectCompetence,
@@ -96,15 +96,16 @@ export default {
         authorName: props.details,
         text: props.details,
         media: props.media,
-        skill: { code: currentAbilities, abilities: currentAbilities }
+        skillId: -1,
+        abilitieIds: []
       }
-
     })
 
     async function handleSubmit () {
       try {
         toast.clear()
         state.isLoading = true
+        validSchema()
         const { data, errors } = await services.news.createOne(state.news)
         if (!errors) {
           state.isLoading = false
@@ -130,31 +131,55 @@ export default {
       }
     }
 
+    function setSkillToSend () {
+      state.news.skillId = state.selectCompetence.id
+      state.news.abilitieIds = filterAbilityIds()
+    }
+
+    // verifica se os campos obrigatórios estão preenchidos
+    // e prepara o objeto para a API
+    function validSchema () {
+      try {
+        // TODO valid schema
+        setSkillToSend()
+      } catch (error) {
+        toast.warning(error)
+      }
+    }
+
     async function getSkills () {
       const { data, errors } = await services.skill.getAll()
       if (!errors) {
-        this.state.cards = data
+        this.state.skills = data
+        this.state.news.skillId = data[0].id
+        this.state.selectCompetence = data[0]
         this.state.abilityOptions = data[0].abilities
-        console.log(data)
       } else {
         console.log(errors)
       }
     }
 
     function updateSelectCompetence (value) {
-      console.log({ cards: state.cards })
-      state.selectCompetence = value
-      console.log({ selected: state.selectCompetence })
+      console.log(`ID: ${value}`)
+      console.log({ cards: state.skills })
 
-      var competence = state.cards.find(c => c.code === state.selectCompetence)
-      console.log(competence)
+      state.selectCompetence = state.skills.find(c => c.code === value)
 
-      state.abilityOptions = competence.abilities
+      console.log(state.selectCompetence)
+      state.news.skillId = state.selectCompetence.id
+      state.abilityOptions = state.selectCompetence.abilities
     }
 
     function updateSelectAbility (value) {
-      // console.log({ event: value })
+      console.log({ event: value })
       state.currentAbilities = value
+    }
+
+    // a partir da lista de skills selecionadas retornando uma lista de ids das abilidades
+    // correspondentes a competencia selecionada
+    function filterAbilityIds () {
+      const filterByCompetence = state.currentAbilities.filter((i) => state.selectCompetence.abilities.includes(i))
+      return filterByCompetence.map((i) => i.id)
     }
 
     return {
@@ -164,7 +189,10 @@ export default {
       file,
       getSkills,
       updateSelectCompetence,
-      updateSelectAbility
+      updateSelectAbility,
+      filterAbilityIds,
+      setSkillToSend,
+      validSchema
     }
   },
 

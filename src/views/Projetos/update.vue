@@ -5,7 +5,7 @@
   </div>
 
   <div>
-    <div class="mt-16 mx-64">
+    <div class="mt-16 mx-2 md:mx-32 lg:mx-64">
       <form @submit.prevent="handleProject">
         <base-input
         v-model="state.project.titulo"
@@ -24,16 +24,24 @@
         type="text"
         />
 
-        <base-input
-        v-model="state.project.urlImagem"
-        label="Link da imagem"
-        type="text"
-        />
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Imagem</span>
+          <div>
+            <input ref="file" v-on:change="handleFileUpload()"  type="file">
+          </div>
+        </label>
 
         <base-input-large
         v-model="state.project.texto"
         label="Texto Principal"
         />
+
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Competências</span>
+          <select-input :options="state.skills" @currentSelect="updateSelectCompetence($event)"/>
+          <span class="text-lg font-medium text-gray-600">Abilidades</span>
+          <checkbox :options="state.abilityOptions" @updateState="updateSelectAbility($event)"/>
+        </label>
 
         <div class="mt-4 mx-4">
           <span class="text-lg font-medium text-gray-600"> Etapa Manual </span>
@@ -57,7 +65,7 @@
             <button :disabled="state.isLoading"
             type="submit"
             :class="{'opacity-50': state.isLoading}"
-            class="absolute bottom-0 right-96 px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-red-400 focus:outline-nome"
+            class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-red-400 focus:outline-nome"
             >
             Add etapa
             </button>
@@ -67,7 +75,7 @@
         <button :disabled="state.isLoading"
         type="submit"
         :class="{'opacity-50': state.isLoading}"
-        class="absolute bottom-0 right-64 px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-brand-main focus:outline-nome"
+        class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-brand-main focus:outline-nome"
         >
           Atualizar
         </button>
@@ -78,27 +86,36 @@
           {{ stage.ordem }} - Nome: {{stage.nomeEtapa}}
         </li>
       </ul>
-
     </div>
   </div>
 </template>
 
 <script>
 import { useRoute, useRouter } from 'vue-router'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import services from '../../services'
 import baseInput from '../../components/Form/baseInput.vue'
 import BaseInputLarge from '../../components/Form/baseInputLarge.vue'
+import selectInput from '../../components/Form/selectInput.vue'
+import Checkbox from '../../components/Form/checkbox.vue'
 
 export default {
-  components: { baseInput, BaseInputLarge },
+  components: { baseInput, BaseInputLarge, selectInput, Checkbox },
+  props: ['title', 'resume', 'nomeAutor', 'text', 'id', 'resumeON', 'manual', 'media'],
 
-  setup () {
+  setup (props) {
+    const file = ref(null)
     const route = useRoute()
     const router = useRouter()
-    const id = route.params.id
     const toast = useToast()
+    const skills = []
+    const abilityOptions = []
+    let selectCompetence
+    const currentAbilities = []
+
+    let data
+    route.params.data != null ? data = JSON.parse(route.params.data) : data = ''
 
     const state = reactive({
       hasErrors: false,
@@ -111,19 +128,26 @@ export default {
         materiais: []
       },
 
+      skills,
+      abilityOptions,
+      selectCompetence,
+      currentAbilities,
+
       project: {
-        titulo: '',
-        descricao: '',
-        nomeAutor: '',
-        urlImagem: '',
-        texto: '',
-        manual: []
+        id: data.id,
+        titulo: data.title,
+        descricao: data.resume,
+        nomeAutor: data.nomeAutor,
+        texto: data.text,
+        media: data.media,
+        manual: data.manual,
+        skillId: -1,
+        abilitieIds: []
       }
     })
 
     function handleStage () {
       state.project.manual.push({ ...state.stageDto })
-      console.log(state.project.manual)
       state.stageDto = {
         ordem: '',
         nomeEtapa: '',
@@ -135,7 +159,8 @@ export default {
 
     async function handleProject () {
       try {
-        console.log('update')
+        validSchema()
+        console.log({ project: JSON.stringify(state.project) })
         const { data, errors } = await services.proj.updateOne(state.project)
         if (!errors) {
           state.isLoading = false
@@ -147,32 +172,86 @@ export default {
         state.isLoading = false
         state.hasErrors = !!error
         toast.error('Ops, ocorreu um erro ao tentar Atualizar o item')
+        router.push({ name: 'AdministradorProjetos' })
+      }
+    }
+
+    function setSkillToSend () {
+      state.project.skillId = state.selectCompetence.id
+      state.project.abilitieIds = filterAbilityIds()
+    }
+
+    // verifica se os campos obrigatórios estão preenchidos
+    // e prepara o objeto para a API
+    function validSchema () {
+      try {
+        // TODO valid schema
+        setSkillToSend()
+      } catch (error) {
+        toast.warning(error)
+      }
+    }
+
+    async function getSkills () {
+      const { data, errors } = await services.skill.getAll()
+      if (!errors) {
+        this.state.skills = data
+        this.state.project.skillId = data[0].id
+        this.state.selectCompetence = data[0]
+        this.state.abilityOptions = data[0].abilities
+      } else {
+        console.log(errors)
+      }
+    }
+
+    function updateSelectCompetence (value) {
+      console.log(`ID: ${value}`)
+      console.log({ cards: state.skills })
+
+      state.selectCompetence = state.skills.find(c => c.code === value)
+
+      console.log(state.selectCompetence)
+      state.project.skillId = state.selectCompetence.id
+      state.abilityOptions = state.selectCompetence.abilities
+    }
+
+    function updateSelectAbility (value) {
+      console.log({ event: value })
+      state.currentAbilities = value
+    }
+
+    // a partir da lista de skills selecionadas retornando uma lista de ids das abilidades
+    // correspondentes a competencia selecionada
+    function filterAbilityIds () {
+      const filterByCompetence = state.currentAbilities.filter((i) => state.selectCompetence.abilities.includes(i))
+      return filterByCompetence.map((i) => i.id)
+    }
+
+    async function handleFileUpload () {
+      const { data, errors } = await services.file.upload(file.value.files)
+      if (!errors) {
+        toast.success('Imagem anexada com sucesso')
+        state.project.media = data.value
+      } else {
+        console.log(errors)
       }
     }
 
     return {
       state,
+      file,
       handleStage,
       handleProject,
-      id
+      handleFileUpload,
+      setSkillToSend,
+      validSchema,
+      getSkills,
+      updateSelectCompetence,
+      updateSelectAbility
     }
   },
-
-  methods: {
-    async getSingleProject () {
-      const { data, errors } = await services.proj.getSingle(this.id)
-      if (!errors) {
-        this.state.project = data.data
-        console.log(data)
-      } else {
-        console.log(errors)
-      }
-    }
-  },
-
   mounted () {
-    this.getSingleProject()
+    this.getSkills()
   }
-
 }
 </script>

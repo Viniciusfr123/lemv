@@ -5,7 +5,7 @@
   </div>
 
   <div>
-    <div class="mt-16 mx-64">
+    <div class="mt-16 mx-2 md:mx-32 lg:mx-64">
       <form @submit.prevent="handleProject">
         <base-input
         v-model="state.project.titulo"
@@ -24,11 +24,12 @@
         type="text"
         />
 
-        <base-input
-        v-model="state.project.urlImagem"
-        label="Link da imagem"
-        type="text"
-        />
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Imagem</span>
+          <div>
+            <input ref="file" v-on:change="handleFileUpload()"  type="file">
+          </div>
+        </label>
 
         <base-input-large
         v-model="state.project.texto"
@@ -92,7 +93,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useToast } from 'vue-toastification'
 import services from '../../services'
 import baseInput from '../../components/Form/baseInput.vue'
@@ -104,6 +105,7 @@ export default {
   components: { baseInput, BaseInputLarge, selectInput, Checkbox },
 
   setup (props) {
+    const file = ref(null)
     const toast = useToast()
     const skills = []
     const abilityOptions = []
@@ -129,16 +131,27 @@ export default {
         titulo: '',
         descricao: '',
         nomeAutor: '',
-        urlImagem: '',
+        media: '',
         texto: '',
         manual: [],
-        skill: { code: '', abilities: [] }
+        skillId: -1,
+        abilitieIds: []
       }
     })
 
     function handleStage () {
-      state.project.manual.push({ ...state.stageDto })
-      console.log(state.project.manual)
+      if (state.stageDto.ordem === '' || state.stageDto.nomeEtapa === '' || state.stageDto.nomeEtapa === '') {
+        toast.warning('Todos os campos da etapa do projeto são obrigatórios')
+        return
+      }
+      var index = state.project.manual.findIndex((i) => i.ordem === state.stageDto.ordem)
+      if (index !== -1) {
+        state.project.manual[index] = state.stageDto
+        toast.success(`Etapa de ordem ${state.stageDto.ordem} foi atualizada`)
+      } else {
+        state.project.manual.push({ ...state.stageDto })
+        toast.success('Nova etapa adicionada, verifique o campo "Etapas do Manual" no final da página')
+      }
       state.stageDto = {
         ordem: '',
         nomeEtapa: '',
@@ -151,9 +164,12 @@ export default {
     async function handleProject () {
       try {
         state.isLoading = true
+        validSchema()
+        console.log({ project: JSON.stringify(state.project) })
         const { data, errors } = await services.proj.createOne(state.project)
         if (!errors) {
           state.isLoading = false
+          console.log(state.project)
           toast.success(`Item ${data.data.id} criado com sucesso!`)
           router.push({ name: 'AdministradorProjetos' })
         }
@@ -162,6 +178,23 @@ export default {
         state.isLoading = false
         state.hasErrors = !!error
         toast.error('Ops, ocorreu um erro ao tentar criar o item')
+        router.push({ name: 'AdministradorProjetos' })
+      }
+    }
+
+    function setSkillToSend () {
+      state.project.skillId = state.selectCompetence.id
+      state.project.abilitieIds = filterAbilityIds()
+    }
+
+    // verifica se os campos obrigatórios estão preenchidos
+    // e prepara o objeto para a API
+    function validSchema () {
+      try {
+        // TODO valid schema
+        setSkillToSend()
+      } catch (error) {
+        toast.warning(error)
       }
     }
 
@@ -169,6 +202,8 @@ export default {
       const { data, errors } = await services.skill.getAll()
       if (!errors) {
         this.state.skills = data
+        this.state.project.skillId = data[0].id
+        this.state.selectCompetence = data[0]
         this.state.abilityOptions = data[0].abilities
       } else {
         console.log(errors)
@@ -176,26 +211,47 @@ export default {
     }
 
     function updateSelectCompetence (value) {
-      state.selectCompetence = value
-      state.project.skill.code = value
+      console.log(`ID: ${value}`)
+      console.log({ cards: state.skills })
 
-      var competence = state.skills.find(c => c.code === state.selectCompetence)
+      state.selectCompetence = state.skills.find(c => c.code === value)
 
-      state.abilityOptions = competence.abilities
+      console.log(state.selectCompetence)
+      state.project.skillId = state.selectCompetence.id
+      state.abilityOptions = state.selectCompetence.abilities
     }
 
     function updateSelectAbility (value) {
+      console.log({ event: value })
       state.currentAbilities = value
-      state.project.skill.abilities = value
+    }
+
+    // a partir da lista de skills selecionadas retornando uma lista de ids das abilidades
+    // correspondentes a competencia selecionada
+    function filterAbilityIds () {
+      const filterByCompetence = state.currentAbilities.filter((i) => state.selectCompetence.abilities.includes(i))
+      return filterByCompetence.map((i) => i.id)
+    }
+    async function handleFileUpload () {
+      const { data, errors } = await services.file.upload(file.value.files)
+      if (!errors) {
+        toast.success('Imagem anexada com sucesso')
+        state.project.media = data.value
+      } else {
+        console.log(errors)
+      }
     }
 
     return {
       state,
+      file,
       handleStage,
       handleProject,
       getSkills,
       updateSelectCompetence,
-      updateSelectAbility
+      updateSelectAbility,
+      handleFileUpload,
+      validSchema
     }
   },
 

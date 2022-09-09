@@ -9,7 +9,7 @@
             {{title}}
         </h1>
         <h1 v-else class="text-lg sm:text-xl font-semibold  text-gray-600">
-            {{title.substr(0,50)}}
+            {{title !== null ? title.substr(0,50): ''}}
         </h1>
         <p v-if="resumeON" class="text-gray-500 text-sm sm:text-base line-clamp-3">
             {{resume}}

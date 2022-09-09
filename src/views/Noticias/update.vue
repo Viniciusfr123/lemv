@@ -1,11 +1,11 @@
 <template>
   <div class="flex justify-center w-full">
-    <h1 class="text-2xl font-black text-gray-800"> Atualizar notícia
+    <h1 class="text-4xl font-black text-gray-800"> Atualizar notícia
     </h1>
   </div>
 
   <div>
-    <div class="mt-16 mx-64">
+    <div class="mt-16 mx-2 md:mx-32 lg:mx-64">
       <form @submit.prevent="handleSubmit">
         <base-input
         v-model="state.news.title"
@@ -36,6 +36,13 @@
         label="Texto Principal"
         />
 
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Competências</span>
+          <select-input :options="state.skills" @currentSelect="updateSelectCompetence($event)"/>
+          <span class="text-lg font-medium text-gray-600">Abilidades</span>
+          <checkbox :options="state.abilityOptions" @updateState="updateSelectAbility($event)"/>
+        </label>
+
         <button :disabled="state.isLoading"
         type="submit"
         :class="{'opacity-50': state.isLoading}"
@@ -55,15 +62,22 @@ import { useToast } from 'vue-toastification'
 import services from '../../services'
 import baseInput from '../../components/Form/baseInput.vue'
 import baseInputLarge from '../../components/Form/baseInputLarge.vue'
+import selectInput from '../../components/Form/selectInput.vue'
+import Checkbox from '../../components/Form/checkbox.vue'
 
 export default {
-  components: { baseInput, baseInputLarge },
+  components: { baseInput, baseInputLarge, selectInput, Checkbox },
   props: ['title', 'img', 'resume', 'text', 'details', 'id', 'resumeON', 'media'],
 
   setup (props) {
     const file = ref(null)
     const route = useRoute()
     const router = useRouter()
+    const skills = []
+    const abilityOptions = []
+    let selectCompetence // competencia selecionada
+    const currentAbilities = [] // lista abilidades selecionadas
+
     let data
     route.params.data != null ? data = JSON.parse(route.params.data) : data = ''
     const toast = useToast()
@@ -72,21 +86,28 @@ export default {
       hasErrors: false,
       isLoading: false,
 
+      skills,
+      abilityOptions,
+      currentAbilities,
+      selectCompetence,
+
       news: {
         id: route.params.id,
         title: data.title,
         description: data.resume,
         authorName: data.details,
         text: data.text,
-        media: data.media
+        media: data.media,
+        skillId: -1,
+        abilitieIds: []
       }
-
     })
 
     async function handleSubmit () {
       try {
         toast.clear()
         state.isLoading = true
+        validSchema()
         const { data, errors } = await services.news.updateOne(state.news.id, state.news)
         if (!errors) {
           state.isLoading = false
@@ -113,13 +134,71 @@ export default {
       }
     }
 
+    function setSkillToSend () {
+      state.news.skillId = state.selectCompetence.id
+      state.news.abilitieIds = filterAbilityIds()
+    }
+
+    // verifica se os campos obrigatórios estão preenchidos
+    // e prepara o objeto para a API
+    function validSchema () {
+      try {
+        // TODO valid schema
+        setSkillToSend()
+      } catch (error) {
+        toast.warning(error)
+      }
+    }
+
+    async function getSkills () {
+      const { data, errors } = await services.skill.getAll()
+      if (!errors) {
+        this.state.skills = data
+        this.state.news.skillId = data[0].id
+        this.state.selectCompetence = data[0]
+        this.state.abilityOptions = data[0].abilities
+      } else {
+        console.log(errors)
+      }
+    }
+
+    function updateSelectCompetence (value) {
+      console.log(`ID: ${value}`)
+      console.log({ cards: state.skills })
+
+      state.selectCompetence = state.skills.find(c => c.code === value)
+
+      console.log(state.selectCompetence)
+      state.news.skillId = state.selectCompetence.id
+      state.abilityOptions = state.selectCompetence.abilities
+    }
+
+    function updateSelectAbility (value) {
+      console.log({ event: value })
+      state.currentAbilities = value
+    }
+
+    // a partir da lista de skills selecionadas retornando uma lista de ids das abilidades
+    // correspondentes a competencia selecionada
+    function filterAbilityIds () {
+      const filterByCompetence = state.currentAbilities.filter((i) => state.selectCompetence.abilities.includes(i))
+      return filterByCompetence.map((i) => i.id)
+    }
+
     return {
       state,
       handleSubmit,
       handleFileUpload,
       ref,
-      file
+      file,
+      updateSelectAbility,
+      updateSelectCompetence,
+      getSkills,
+      validSchema
     }
+  },
+  mounted () {
+    this.getSkills()
   }
 
 }

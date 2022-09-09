@@ -15,15 +15,15 @@
           <card v-for="c in filterList()"
           @list="getProject()"
           :key="c.id"
-          :title="c.titulo"
-          :img="c.urlImagem"
-          :resume="c.descricao"
-          :details="c.authorName"
-          :text="c.texto"
           :id="c.id"
+          :title="c.titulo"
+          :media="c.media"
+          :resume="c.descricao"
+          :nomeAutor="c.nomeAutor"
+          :text="c.texto"
           :manual="c.manual"
           resumeON="true"
-          @ProjectUpdate="pushtoUpdateProject($event.id)"
+          @ProjectUpdate="pushtoUpdateProject($event.id, $event)"
           @ProjectDelete="deleteProject($event)"
           />
         </div>
@@ -75,8 +75,9 @@ export default {
       router.push({ name: 'ProjetoCreatePage' })
     }
 
-    function pushtoUpdateProject (id) {
-      router.push({ name: 'ProjetoUpdatePage', params: { id: id } })
+    function pushtoUpdateProject (id, project) {
+      console.log(JSON.stringify(project))
+      router.push({ name: 'ProjetoUpdatePage', params: { id: id, data: JSON.stringify(project) } })
     }
 
     function deleteProject (props) {
