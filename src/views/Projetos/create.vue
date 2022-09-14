@@ -65,7 +65,7 @@
             <button :disabled="state.isLoading"
             type="submit"
             :class="{'opacity-50': state.isLoading}"
-            class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-brand-main focus:outline-nome"
+            class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-red-400 focus:outline-nome"
             >
             Add etapa
             </button>

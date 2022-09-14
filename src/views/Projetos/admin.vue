@@ -76,7 +76,6 @@ export default {
     }
 
     function pushtoUpdateProject (id, project) {
-      console.log(JSON.stringify(project))
       router.push({ name: 'ProjetoUpdatePage', params: { id: id, data: JSON.stringify(project) } })
     }
 

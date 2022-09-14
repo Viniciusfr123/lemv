@@ -147,7 +147,18 @@ export default {
     })
 
     function handleStage () {
-      state.project.manual.push({ ...state.stageDto })
+      if (state.stageDto.ordem === '' || state.stageDto.nomeEtapa === '' || state.stageDto.nomeEtapa === '') {
+        toast.warning('Todos os campos da etapa do projeto são obrigatórios')
+        return
+      }
+      var index = state.project.manual.findIndex((i) => i.ordem.toString() === state.stageDto.ordem)
+      if (index !== -1) {
+        state.project.manual[index] = state.stageDto
+        toast.success(`Etapa de ordem ${state.stageDto.ordem} foi atualizada`)
+      } else {
+        state.project.manual.push({ ...state.stageDto })
+        toast.success('Nova etapa adicionada, verifique o campo "Etapas do Manual" no final da página')
+      }
       state.stageDto = {
         ordem: '',
         nomeEtapa: '',
