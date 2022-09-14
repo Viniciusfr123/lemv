@@ -3,18 +3,21 @@
   <div class="container px-5 py-24 mx-auto">
       <div class="lg:w-4/5 mx-auto flex flex-wrap">
           <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{projeto.titulo}}</h1>
-            <p class="leading-relaxed mb-4">{{projeto.texto}}</p>
+            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.projeto.titulo}}</h1>
+            <p class="leading-relaxed mb-4">{{state.projeto.texto}}</p>
               <div class="flex border-t border-gray-200 py-2">
                 <span class="text-gray-500">Autor</span>
-                <span class="ml-auto text-gray-900">{{projeto.nomeAutor}}</span>
+                <span class="ml-auto text-gray-900">{{state.projeto.nomeAutor}}</span>
               </div>
           </div>
-        <img alt="Imagem Projeto" class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded" :src="projeto.urlImagem ?? 'https://pps.whatsapp.net/v/t61.24694-24/70374212_645198842715252_6571058794287476047_n.jpg?ccb=11-4&oh=480829809c1a4356d19b0a236cbacc3e&oe=62CE197B'">
+          <div class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded">
+            <img alt="Imagem Projeto" :src="state.img">
+            <skill-resume v-if="state.projeto.skill" :skill="state.projeto.skill"/>
+          </div>
       </div>
       <div class="lg:w-4/5 mx-auto flex flex-wrap py-10">
       <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Tutorial</h1>
-        <carousel :manual="projeto.manual"/>
+        <carousel :manual="state.projeto.manual"/>
       </div>
   </div>
 </section>
@@ -23,36 +26,54 @@
 <script>
 import { useRoute } from 'vue-router'
 import services from '../../services'
+import { reactive } from 'vue'
 import carousel from '../../components/carousel/index.vue'
+import skillResume from '../../components/Card/skillResume.vue'
 export default {
+  components: { carousel, skillResume },
 
-  components: { carousel },
-
-  data () {
+  setup () {
+    const img = '/img/principal.aa4e4091.png'
+    const route = useRoute()
     const projeto = {}
-    return {
+    const id = route.params.id
+    const state = reactive({
+      img,
       projeto
-    }
-  },
+    })
 
-  methods: {
-    async getSingleProject () {
+    async function getSingleProject () {
       const { data, errors } = await services.proj.getSingle(this.id)
       if (!errors) {
-        this.projeto = data.data
-        console.log(data)
+        state.projeto = data.data
+        if (state.projeto.media != null) {
+          downloadImg(state.projeto.media.fileId)
+        } else {
+          console.log(`Não tem media ${state.img}`)
+        }
       } else {
         console.log(errors)
       }
     }
-  },
 
-  setup () {
-    const route = useRoute()
-    const id = route.params.id
+    async function downloadImg (fileId) {
+      if (fileId) {
+        const { data, errors } = await services.file.download(fileId)
+        if (!errors) {
+          var fileURL = window.URL.createObjectURL(new Blob([data]))
+          state.img = fileURL
+        } else {
+          console.log('result')
+          console.log(errors)
+        }
+      }
+    }
 
     return {
-      id
+      id,
+      state,
+      getSingleProject,
+      downloadImg
     }
   },
 

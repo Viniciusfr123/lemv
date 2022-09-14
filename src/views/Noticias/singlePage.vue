@@ -10,7 +10,10 @@
                 <span class="ml-auto text-gray-900">{{state.noticia.authorName}}</span>
               </div>
           </div>
-        <img alt="Imagem singlePage Noticia" class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded" :src="state.img">
+        <div class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded">
+          <img alt="Imagem singlePage Noticia" :src="state.img">
+          <skill-resume v-if="state.noticia.skill" :skill="state.noticia.skill"/>
+        </div>
       </div>
   </div>
 </section>
@@ -19,11 +22,12 @@
 <script>
 import { useRoute } from 'vue-router'
 import { reactive } from 'vue'
+import skillResume from '../../components/Card/skillResume.vue'
 
 import services from '../../services'
 
 export default {
-  components: {},
+  components: { skillResume },
 
   setup () {
     const route = useRoute()
@@ -41,11 +45,9 @@ export default {
         state.noticia = data.data
         if (state.noticia.media != null) {
           downloadImg(state.noticia.media.fileId)
-          console.log(state.img)
         } else {
           console.log(`Não tem media ${state.img}`)
         }
-        console.log(data)
       } else {
         console.log(errors)
       }
