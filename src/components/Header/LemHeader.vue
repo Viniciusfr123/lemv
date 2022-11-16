@@ -7,12 +7,12 @@
         </div>
     </a>
         <nav class="md:ml-auto flex flex-wrap items-center text-base justify-center">
-            <div class="content-center pr-15 space-x-5 md:block md:ml-10 md:pr-20 md:space-x-10 mt-2">
+            <div class="content-center pr-15 space-x-5 md:block md:ml-10 md:pr-20 md: flex flex-wrap space-x-10 mt-2">
                 <router-link to="/" class="font-medium text-brand-main hover:text-gray-900">Inicio</router-link>
                 <router-link to="/projetos" class="font-medium text-brand-main hover:text-gray-900">Projetos</router-link>
                 <router-link to="/noticias" class="font-medium text-brand-main hover:text-gray-900">Notícias</router-link>
                 <router-link to="/acervo" class="font-medium text-brand-main hover:text-gray-900">Acervo</router-link>
-                <router-link to="/sobrenos" class="font-medium text-brand-main hover:text-gray-900">Sobre nós</router-link>
+                <router-link to="/calendario" class="font-medium text-brand-main hover:text-gray-900">Calêndario</router-link>
                 <router-link to="/Competencias" class="font-medium text-brand-main hover:text-gray-900">BNCC</router-link>
                 <router-link to="/contato" class="font-medium text-brand-main hover:text-gray-900">Contato</router-link>
             </div>

@@ -9,7 +9,7 @@
             class="field w-1/3 bg-gray-100 bg-opacity-50 rounded border border-green-300 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             placeholder="Filtrar..."
           />
-          <card v-for="c in filterList()" :key="c.id" :title="c.title" :resume="c.resume" :details="c.auth" :redirect="redirect" :type="c.type" resumeON="true" :media="c.media"/>
+          <card v-for="c in filterList()" :key="c.id" :id="c.id" :title="c.name ?? 'Api ta com problema no Nome dos artefatos'" :resume="c.description" :redirect="redirect" :type="c.type" resumeON="true"/>
         </div>
   </main>
 </template>
@@ -27,81 +27,44 @@ export default {
     const searchPayload = ''
     const cards = [
       {
-        id: 1,
-        title: 'Acervo Teste 1',
-        resume: 'Acervo Testes resume',
-        details: 'Acervo Teste details',
-        media: null,
-        classification: 'LIVRE',
-        type: 'livro',
-        skill: {},
-        auth: 'Thalles'
-      },
-      {
         id: 2,
-        title: 'Acervo Teste 2',
-        resume: 'Acervo Testes resume',
-        details: 'Acervo Teste details',
-        media: null,
-        classification: 'LIVRE',
-        type: 'filme',
-        skill: {},
-        auth: 'Lucas'
+        name: 'artefato 2',
+        description: 'teste artefato',
+        medias: [{
+          fileId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          fileName: 'string',
+          format: 'string',
+          size: 0
+        },
+        {
+          fileId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          fileName: 'string',
+          format: 'string',
+          size: 0
+        }
+        ],
+        skillId: 0,
+        abilitieIds: [0]
       },
       {
         id: 3,
-        title: 'Acervo Teste 3',
-        resume: 'Acervo Testes resume',
-        details: 'Acervo Teste details',
-        media: null,
-        classification: 'LIVRE',
-        type: 'artigo',
-        skill: {},
-        auth: 'Leonardo'
-      },
-      {
-        id: 4,
-        title: 'Acervo Teste 3',
-        resume: 'Acervo Testes resume',
-        details: 'Acervo Teste details',
-        media: null,
-        classification: 'LIVRE',
-        type: 'material-didático-pedagógicos',
-        skill: {},
-        auth: 'Leonardo'
-      },
-      {
-        id: 5,
-        title: 'Acervo Teste 3',
-        resume: 'Acervo Testes resume',
-        details: 'Acervo Teste details',
-        media: null,
-        classification: 'LIVRE',
-        type: 'filme',
-        skill: {},
-        auth: 'Leonardo'
-      },
-      {
-        id: 6,
-        title: 'Acervo Teste 3',
-        resume: 'Acervo Testes resume',
-        details: 'Acervo Teste details',
-        media: null,
-        classification: 'LIVRE',
-        type: 'video',
-        skill: {},
-        auth: 'Leonardo'
-      },
-      {
-        id: 7,
-        title: 'Acervo Teste 3',
-        resume: 'Acervo Testes resume',
-        details: 'Acervo Teste details',
-        media: null,
-        classification: 'LIVRE',
-        type: 'revista',
-        skill: {},
-        auth: 'Leonardo'
+        name: 'artefato 3',
+        description: 'teste artefato',
+        medias: [{
+          fileId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          fileName: 'string',
+          format: 'string',
+          size: 0
+        },
+        {
+          fileId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+          fileName: 'string',
+          format: 'string',
+          size: 0
+        }
+        ],
+        skillId: 0,
+        abilitieIds: [0]
       }
     ]
     const state = reactive({
@@ -121,16 +84,14 @@ export default {
       }
     }
 
-    // TODO PEDIR UMA ROTA QUE JUNTA MATERIAS LIVROS E ARTIGOS
     async function getAcervo () {
-      const { data, errors } = await services.acervo.getAcervo()
+      const { data, errors } = await services.art.getArtifacts()
       if (!errors) {
         this.state.cards.push(...data)
       } else {
         console.log(errors)
       }
     }
-    // TODO PEDIR UMA ROTA QUE JUNTA MATERIAS LIVROS E ARTIGOS
 
     return {
       getAcervo,
@@ -141,7 +102,7 @@ export default {
   },
 
   mounted () {
-    // this.getAcervo()
+    this.getAcervo()
   }
 }
 </script>
