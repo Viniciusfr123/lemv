@@ -12,7 +12,7 @@
             {{title !== null ? title.substr(0,50): ''}}
         </h1>
         <p v-if="resumeON" class="text-gray-500 text-sm sm:text-base line-clamp-3">
-            {{resume}}
+            {{resume.substr(0,200) + '...'}}
         </p>
         <div class="flex gap-4 mt-auto">
 

@@ -1,21 +1,23 @@
 <template>
 <section class="text-gray-600 body-font overflow-hidden">
-  <div class="container px-5 py-24 mx-auto">
+   <div class="container px-5 py-24 mx-auto">
       <div class="lg:w-4/5 mx-auto flex flex-wrap">
-          <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+         <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.noticia.title}}</h1>
             <p class="leading-relaxed mb-4">{{state.noticia.text}}</p>
-              <div class="flex border-t border-gray-200 py-2">
-                <span class="text-gray-500">Autor</span>
-                <span class="ml-auto text-gray-900">{{state.noticia.authorName}}</span>
-              </div>
-          </div>
-        <div class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded">
-          <img alt="Imagem singlePage Noticia" :src="state.img">
-          <skill-resume v-if="state.noticia.skill" :skill="state.noticia.skill"/>
-        </div>
+            <div class="flex border-t border-gray-200 py-2">
+               <span class="text-gray-500">Autor</span>
+               <span class="ml-auto text-gray-900">{{state.noticia.authorName}}</span>
+            </div>
+         </div>
+         <div class="lg:w-2/6 w-full h-auto object-cover object-center rounded">
+            <div class="h-64">
+              <img alt="Imagem singlePage Noticia" :src="state.img">
+            </div>
+              <skill-resume v-if="state.noticia.skill" :skill="state.noticia.skill"/>
+         </div>
       </div>
-  </div>
+   </div>
 </section>
 </template>
 

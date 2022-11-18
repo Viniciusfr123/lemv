@@ -1,17 +1,19 @@
 <template>
 <section class="text-gray-600 body-font overflow-hidden">
-  <div class="container px-5 py-24 mx-auto">
+   <div class="container px-5 py-24 mx-auto">
       <div class="lg:w-4/5 mx-auto flex flex-wrap">
-          <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+         <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.artefact.name || 'Api ta com problema no nome do artefato'}}</h1>
             <p class="leading-relaxed mb-4">{{state.artefact.description}}</p>
-          </div>
-        <div class="lg:w-2/6 w-full lg:h-auto h-64 object-cover object-center rounded">
-          <imagens :imgs="state.imgs"/>
-          <skill-resume v-if="state.artefact.skill" :skill="state.artefact.skill"/>
-        </div>
+         </div>
+         <div class="lg:w-2/6 w-full h-auto object-cover object-center rounded">
+            <div class="h-90">
+              <imagens :imgs="state.imgs"/>
+            </div>
+            <skill-resume v-if="state.artefact.skill" :skill="state.artefact.skill"/>
+         </div>
       </div>
-  </div>
+   </div>
 </section>
 </template>
 

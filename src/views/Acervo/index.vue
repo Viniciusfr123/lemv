@@ -9,7 +9,7 @@
             class="field w-1/3 bg-gray-100 bg-opacity-50 rounded border border-green-300 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             placeholder="Filtrar..."
           />
-          <card v-for="c in filterList()" :key="c.id" :id="c.id" :title="c.name ?? 'Api ta com problema no Nome dos artefatos'" :resume="c.description" :redirect="redirect" :type="c.type" resumeON="true"/>
+          <card v-for="c in filterList()" :key="c.id" :id="c.id" :title="c.name ?? 'Title'" :resume="c.description" :redirect="redirect" :type="c.type" resumeON="true"/>
         </div>
   </main>
 </template>
@@ -25,48 +25,7 @@ export default {
   setup () {
     const redirect = 'AcervoSinglePage'
     const searchPayload = ''
-    const cards = [
-      {
-        id: 2,
-        name: 'artefato 2',
-        description: 'teste artefato',
-        medias: [{
-          fileId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          fileName: 'string',
-          format: 'string',
-          size: 0
-        },
-        {
-          fileId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          fileName: 'string',
-          format: 'string',
-          size: 0
-        }
-        ],
-        skillId: 0,
-        abilitieIds: [0]
-      },
-      {
-        id: 3,
-        name: 'artefato 3',
-        description: 'teste artefato',
-        medias: [{
-          fileId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          fileName: 'string',
-          format: 'string',
-          size: 0
-        },
-        {
-          fileId: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-          fileName: 'string',
-          format: 'string',
-          size: 0
-        }
-        ],
-        skillId: 0,
-        abilitieIds: [0]
-      }
-    ]
+    const cards = []
     const state = reactive({
       cards,
       searchPayload

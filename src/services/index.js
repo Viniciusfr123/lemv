@@ -12,9 +12,8 @@ import ArtifactService from './artifact'
 const API_ENVS = {
   prod: '',
   dev: '',
-  // local: 'https://d5708c2a-fa58-4989-9902-2a6bb6c99f58.mock.pstmn.io'
-  local: 'http://localhost:8000/api'
-
+  local: 'https://localhost:44314/api',
+  docker: 'http://localhost:8000/api'
 }
 
 const httpClient = axios.create({
