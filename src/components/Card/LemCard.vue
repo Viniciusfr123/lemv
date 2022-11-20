@@ -14,23 +14,23 @@
         <p v-if="resumeON" class="text-gray-500 text-sm sm:text-base line-clamp-3">
             {{resume.substr(0,200) + '...'}}
         </p>
-        <div class="flex gap-4 mt-auto">
-        <div>
-          <h3 class="text-sm sm:text-x1 font-semibold  text-gray-600">
-          {{'Autor'}}
-          </h3>
-          <span class='mr-auto text-brand-main flex items-center gap-1 sm:text-sm '>
-          {{details}}
-          </span>
-        </div>
-        <div class="w-120">
+        <div class="flex-wrap  gap-4 mt-auto ">
+          <div v-if="resumeON">
             <h3 class="text-sm sm:text-x1 font-semibold  text-gray-600">
-            {{'Palavras-chave'}}
+            {{'Autor'}}
             </h3>
-            <span class='mr-auto w-20 text-brand-main flex items-center gap-1 sm:text-sm '>
-            {{tags.toString()}}
+            <span class='mr-auto text-brand-main flex items-center gap-1 sm:text-sm '>
+            {{details}}
             </span>
-        </div>
+          </div>
+          <div v-if="resumeON" class="w-120">
+              <h3 class="text-sm sm:text-x1 font-semibold  text-gray-600">
+              {{'Palavras-chave'}}
+              </h3>
+              <span class='mr-auto w-20 text-brand-main flex items-center gap-1 sm:text-sm '>
+              {{tags.toString()}}
+              </span>
+          </div>
         <button v-on:click="pushPage()"
             class='ml-auto text-brand-main flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'>
             <span>mais</span>

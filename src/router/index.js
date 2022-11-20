@@ -4,7 +4,6 @@ const Inicio = () => import('../views/Inicio/index.vue')
 const Noticias = () => import('../views/Noticias/index.vue')
 const NoticiaSinglePage = () => import('../views/Noticias/singlePage')
 const Projetos = () => import('../views/Projetos/index.vue')
-const Contato = () => import('../views/Contato/index.vue')
 const Acervo = () => import('../views/Acervo/index.vue')
 const AcervoSinglePage = () => import('../views/Acervo/singlePage.vue')
 const AdministradorAcervo = () => import('../views/Acervo/admin.vue')
@@ -15,7 +14,6 @@ const ProjetoSinglePage = () => import('../views/Projetos/singlePage')
 const AdministradorNoticias = () => import('../views/Noticias/admin.vue')
 const AdministradorInicio = () => import('../views/Inicio/admin.vue')
 const AdministradorProjetos = () => import('../views/Projetos/admin.vue')
-const AdministradorContato = () => import('../views/Contato/admin.vue')
 const ProjetoCreatePage = () => import('../views/Projetos/create.vue')
 const ProjetoUpdatePage = () => import('../views/Projetos/update.vue')
 const NoticiasCreatePage = () => import('../views/Noticias/create.vue')
@@ -78,11 +76,6 @@ const routes = [
     component: ProjetoSinglePage
   },
   {
-    path: '/contato',
-    name: 'Contato',
-    component: Contato
-  },
-  {
     path: '/acervo',
     name: 'Acervo',
     component: Acervo
@@ -126,11 +119,6 @@ const routes = [
     path: '/administrador/acervo',
     name: 'AdministradorAcervo',
     component: AdministradorAcervo
-  },
-  {
-    path: '/administrador/contato',
-    name: 'AdministradorContato',
-    component: AdministradorContato
   },
   {
     path: '/competencias',

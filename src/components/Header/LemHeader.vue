@@ -14,7 +14,6 @@
                 <router-link to="/acervo" class="font-medium text-brand-main hover:text-gray-900">Acervo</router-link>
                 <router-link to="/calendario" class="font-medium text-brand-main hover:text-gray-900">Calêndario</router-link>
                 <router-link to="/Competencias" class="font-medium text-brand-main hover:text-gray-900">BNCC</router-link>
-                <router-link to="/contato" class="font-medium text-brand-main hover:text-gray-900">Contato</router-link>
             </div>
         </nav>
         <button

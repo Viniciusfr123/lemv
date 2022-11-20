@@ -28,7 +28,6 @@ export default httpClient => ({
     if (matricula === 'lemv.admin' && senha === 'aelv@42') {
       return { data: { token: 'taliberado' }, errors: null }
     } else {
-      console.log('caiu aqui')
       return {
         data: {},
         errors: {
