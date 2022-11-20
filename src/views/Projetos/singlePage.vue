@@ -9,6 +9,10 @@
                <span class="text-gray-500">Autor</span>
                <span class="ml-auto text-gray-900">{{state.projeto.nomeAutor}}</span>
             </div>
+            <div>
+              <h1 class="text-gray-900 text-1xl title-font font-medium mb-4"> {{'Palavras-chave'}}</h1>
+              <p class="leading-relaxed mb-4">{{state.projeto.tags ? formatKeyWord(state.projeto.tags) : ''}}</p>
+            </div>
             <div class="py-24">
                 <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Tutorial</h1>
                 <carousel :manual="state.projeto.manual"/>
@@ -58,6 +62,10 @@ export default {
       }
     }
 
+    function formatKeyWord (lst) {
+      return lst.toString().replace(',', ', ')
+    }
+
     async function downloadImg (fileId) {
       if (fileId) {
         const { data, errors } = await services.file.download(fileId)
@@ -75,7 +83,8 @@ export default {
       id,
       state,
       getSingleProject,
-      downloadImg
+      downloadImg,
+      formatKeyWord
     }
   },
 

@@ -9,6 +9,10 @@
                <span class="text-gray-500">Autor</span>
                <span class="ml-auto text-gray-900">{{state.noticia.authorName}}</span>
             </div>
+            <div>
+              <h1 class="text-gray-900 text-1xl title-font font-medium mb-4"> {{'Palavras-chave'}}</h1>
+              <p class="leading-relaxed mb-4">{{state.noticia.tags ? formatKeyWord(state.noticia.tags) : ''}}</p>
+            </div>
          </div>
          <div class="lg:w-2/6 w-full h-auto object-cover object-center rounded">
             <div class="h-64">
@@ -55,6 +59,10 @@ export default {
       }
     }
 
+    function formatKeyWord (lst) {
+      return lst.toString().replace(',', ', ')
+    }
+
     async function downloadImg (fileId) {
       console.log(fileId)
       if (fileId) {
@@ -74,7 +82,8 @@ export default {
       id,
       state,
       getSingleNew,
-      downloadImg
+      downloadImg,
+      formatKeyWord
     }
   },
 

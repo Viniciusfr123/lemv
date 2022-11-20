@@ -9,7 +9,7 @@
             class="field w-1/3 bg-gray-100 bg-opacity-50 rounded border border-green-300 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             placeholder="Filtrar..."
           />
-          <card v-for="c in filterList()" :key="c.id" :id="c.id" :title="c.name ?? 'Title'" :resume="c.description" :redirect="redirect" :type="c.type" resumeON="true"/>
+          <card v-for="c in filterList()" :key="c.id" :id="c.id" :title="c.name ?? 'Title'" :details="c.tags ? c.tags.toString(): ''" :resume="c.resume" :redirect="redirect" :type="c.type" :media="c.medias ? c.medias[0] : null" resumeON="true"/>
         </div>
   </main>
 </template>
