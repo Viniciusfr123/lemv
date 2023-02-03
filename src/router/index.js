@@ -12,7 +12,6 @@ const AcervoUpdatePage = () => import('../views/Acervo/update.vue')
 const Administrador = () => import('../views/Administrador/index.vue')
 const ProjetoSinglePage = () => import('../views/Projetos/singlePage')
 const AdministradorNoticias = () => import('../views/Noticias/admin.vue')
-const AdministradorInicio = () => import('../views/Inicio/admin.vue')
 const AdministradorProjetos = () => import('../views/Projetos/admin.vue')
 const ProjetoCreatePage = () => import('../views/Projetos/create.vue')
 const ProjetoUpdatePage = () => import('../views/Projetos/update.vue')
@@ -104,11 +103,6 @@ const routes = [
     path: '/administrador/noticias',
     name: 'AdministradorNoticias',
     component: AdministradorNoticias
-  },
-  {
-    path: '/administrador/inicio',
-    name: 'AdministradorInicio',
-    component: AdministradorInicio
   },
   {
     path: '/administrador/projeto',

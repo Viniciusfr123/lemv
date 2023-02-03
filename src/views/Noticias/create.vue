@@ -40,7 +40,7 @@
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Competências</span>
           <select-input :options="state.skills" @currentSelect="updateSelectCompetence($event)"/>
-          <span class="text-lg font-medium text-gray-600">Abilidades</span>
+          <span class="text-lg font-medium text-gray-600">Habilidades</span>
           <checkbox :options="state.abilityOptions" @updateState="updateSelectAbility($event)"/>
         </label>
 
@@ -78,7 +78,7 @@ export default {
     const skills = []
     const abilityOptions = []
     let selectCompetence // competencia selecionada
-    const currentAbilities = [] // lista abilidades selecionadas
+    const currentAbilities = [] // lista habilidades selecionadas
 
     const state = reactive({
       skills,
@@ -175,7 +175,7 @@ export default {
       state.currentAbilities = value
     }
 
-    // a partir da lista de skills selecionadas retornando uma lista de ids das abilidades
+    // a partir da lista de skills selecionadas retornando uma lista de ids das habilidades
     // correspondentes a competencia selecionada
     function filterAbilityIds () {
       const filterByCompetence = state.currentAbilities.filter((i) => state.selectCompetence.abilities.includes(i))

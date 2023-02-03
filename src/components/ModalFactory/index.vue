@@ -29,28 +29,16 @@ import { reactive, onMounted, onBeforeMount, defineAsyncComponent } from 'vue'
 import useModal from '../../hooks/useModal'
 
 const ModalLogin = defineAsyncComponent(() => import('../ModalLogin'))
-const ModalUpdateNews = defineAsyncComponent(() => import('../ModalNews/update.vue'))
 const ModalCancel = defineAsyncComponent(() => import('../ModalCancel/index.vue'))
 const ModalDeleteProject = defineAsyncComponent(() => import('../ModalProject/delete.vue'))
 const ModalDeleteArtifact = defineAsyncComponent(() => import('../ModalArtifact/delete.vue'))
-const ModalCreateNews = defineAsyncComponent(() => import('../ModalNews/create.vue'))
-const ModalUpdateProject = defineAsyncComponent(() => import('../ModalProject/update.vue'))
-const ModalCreateProject = defineAsyncComponent(() => import('../ModalProject/create.vue'))
-const ModalCreateStegeProject = defineAsyncComponent(() => import('../ModalProject/createStage.vue'))
-const ModalUpdateStageProject = defineAsyncComponent(() => import('../ModalProject/updateStage.vue'))
 const ModalDeleteSkill = defineAsyncComponent(() => import('../ModalCancel/skill.vue'))
 const DEFAULT_WIDTH = 'w-3/4 lg:w-1/3'
 
 export default {
   components: {
     ModalLogin,
-    ModalUpdateNews,
     ModalCancel,
-    ModalCreateNews,
-    ModalUpdateProject,
-    ModalCreateProject,
-    ModalCreateStegeProject,
-    ModalUpdateStageProject,
     ModalDeleteProject,
     ModalDeleteSkill,
     ModalDeleteArtifact

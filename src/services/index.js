@@ -9,15 +9,8 @@ import FileService from './file'
 import SkillService from './skill'
 import ArtifactService from './artifact'
 
-const API_ENVS = {
-  prod: '',
-  dev: '',
-  local: 'https://localhost:44314/api',
-  docker: 'http://localhost:8000/api'
-}
-
 const httpClient = axios.create({
-  baseURL: API_ENVS.local
+  baseURL: 'http://localhost:8000/api'
 })
 
 httpClient.interceptors.response.use((response) => {

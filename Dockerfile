@@ -1,5 +1,5 @@
 # Choose the Image which has Node installed already
-FROM node:12.14.1-alpine as build-stage
+FROM node:12.22.1-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
