@@ -9,7 +9,7 @@
             class="field w-1/3 bg-gray-100 bg-opacity-50 rounded border border-green-300 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             placeholder="Filtrar..."
           />
-          <card v-for="c in filterList()" :key="c.id" :id="c.id" :title="c.name ?? 'Title'" :details="c.tags ? c.tags.toString(): ''" :resume="c.resume" :redirect="redirect" :type="c.type" :media="c.medias ? c.medias[0] : null" resumeON="true"/>
+          <card v-for="c in filterList()" :key="c._id" :id="c._id" :title="c.name" :authorName="c.authorName" :tags="c.tags" :resume="c.resume" :redirect="redirect" :img="c.urlImages[0]" resumeON="true"/>
         </div>
   </main>
 </template>
@@ -35,7 +35,7 @@ export default {
       if (this.state.searchPayload !== '') {
         console.log(this.state.searchPayload)
         return this.state.cards.filter((item) =>
-          `${item.title} ${item.auth} ${item.type}`.toLowerCase()
+          `${item.name} ${item.authorName} ${item.tags}`.toLowerCase()
             .includes(this.state.searchPayload.toLowerCase())
         )
       } else {

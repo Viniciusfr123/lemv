@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white w-80 max-w-3xl sm:w-full sm:p-4 h-auto sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none p-1">
     <div
-        :style="{backgroundImage: 'url(\'' + state.img + '\')'}"
+        :style="{ backgroundImage: `url('${urlImage}')` }"
         class="h-52 sm:h-full sm:w-52 rounded-xl bg-gray-100 bg-center bg-cover hidden lg:block"
     ></div>
     <div class="flex sm:flex-1 flex-col gap-2 p-1">
@@ -36,7 +36,7 @@ import { useRouter } from 'vue-router'
 import services from '../../services'
 
 export default {
-  props: ['title', 'resume', 'details', 'text', 'id', 'resumeON', 'media'],
+  props: ['title', 'resume', 'details', 'id', 'resumeON', 'media', 'urlImage', 'description', 'tags'],
 
   setup (props) {
     const img = '/img/principal.aa4e4091.png'

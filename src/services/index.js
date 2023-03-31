@@ -8,9 +8,10 @@ import BookService from './book'
 import FileService from './file'
 import SkillService from './skill'
 import ArtifactService from './artifact'
+import ImageService from './image'
 
 const httpClient = axios.create({
-  baseURL: 'http://localhost:8000/api'
+  baseURL: 'https://localhost:5052/api/'
 })
 
 httpClient.interceptors.response.use((response) => {
@@ -35,5 +36,6 @@ export default {
   book: BookService(httpClient),
   file: FileService(httpClient),
   skill: SkillService(httpClient),
-  art: ArtifactService(httpClient)
+  art: ArtifactService(httpClient),
+  image: ImageService(httpClient)
 }

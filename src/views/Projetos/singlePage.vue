@@ -3,32 +3,31 @@
    <div class="container px-5 py-24 mx-auto">
       <div class="lg:w-4/5 mx-auto flex flex-wrap">
          <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.projeto.titulo}}</h1>
-            <p class="leading-relaxed mb-4">{{state.projeto.texto}}</p>
+            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.project.title}}</h1>
+            <p class="leading-relaxed mb-4">{{state.project.description}}</p>
             <div class="flex border-t border-gray-200 py-2">
                <span class="text-gray-500">Autor</span>
-               <span class="ml-auto text-gray-900">{{state.projeto.nomeAutor}}</span>
+               <span class="ml-auto text-gray-900">{{state.project.authorname}}</span>
             </div>
             <div>
               <h1 class="text-gray-900 text-1xl title-font font-medium mb-4"> {{'Palavras-chave'}}</h1>
-              <p class="leading-relaxed mb-4">{{state.projeto.tags ? formatKeyWord(state.projeto.tags) : ''}}</p>
+              <p class="leading-relaxed mb-4">{{state.project.tags ? formatKeyWord(state.project.tags) : ''}}</p>
             </div>
             <div class="py-24">
                 <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Tutorial</h1>
-                <carousel :manual="state.projeto.manual"/>
+                <carousel :manual="state.project.manual"/>
             </div>
          </div>
          <div class="lg:w-2/6 w-full lg:h-auto object-cover object-center rounded">
             <div class="h64">
-               <img alt="Imagem Projeto" :src="state.img">
+               <img alt="Imagem project" :src="state.project.urlImage">
             </div>
-            <skill-resume v-if="state.projeto.skill" :skill="state.projeto.skill"/>
+            <skill-resume v-if="state.project.skill" :skill="state.project.skill"/>
          </div>
       </div>
    </div>
 </section>
 </template>
-
 <script>
 import { useRoute } from 'vue-router'
 import services from '../../services'
@@ -41,22 +40,17 @@ export default {
   setup () {
     const img = '/img/principal.aa4e4091.png'
     const route = useRoute()
-    const projeto = {}
+    const project = {}
     const id = route.params.id
     const state = reactive({
       img,
-      projeto
+      project
     })
 
     async function getSingleProject () {
       const { data, errors } = await services.proj.getSingle(this.id)
       if (!errors) {
-        state.projeto = data.data
-        if (state.projeto.media != null) {
-          downloadImg(state.projeto.media.fileId)
-        } else {
-          console.log(`Não tem media ${state.img}`)
-        }
+        state.project = data.data
       } else {
         console.log(errors)
       }
@@ -66,24 +60,10 @@ export default {
       return lst.toString().replace(',', ', ')
     }
 
-    async function downloadImg (fileId) {
-      if (fileId) {
-        const { data, errors } = await services.file.download(fileId)
-        if (!errors) {
-          var fileURL = window.URL.createObjectURL(new Blob([data]))
-          state.img = fileURL
-        } else {
-          console.log('result')
-          console.log(errors)
-        }
-      }
-    }
-
     return {
       id,
       state,
       getSingleProject,
-      downloadImg,
       formatKeyWord
     }
   },

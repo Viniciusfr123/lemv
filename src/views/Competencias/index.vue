@@ -13,7 +13,7 @@
     </div>
     <div class="container px-5 py-24 mx-auto">
       <div class="-my-8 divide-y-2 divide-gray-100">
-          <competence v-for="c in state.cards" :key="c.code" :abilities="c.abilities" :id="c.id" :description="c.description" :code="c.code"/>
+          <competence v-for="c in state.cards" :key="c.code" :abilities="c.abilities" :id="c._id" :description="c.description" :code="c.code"/>
       </div>
     </div>
 </section>
@@ -21,8 +21,8 @@
 
 <script>
 import { reactive } from 'vue'
-import services from '../../services'
 import competence from '../../components/Card/competence.vue'
+import services from '../../services'
 
 export default {
   components: { competence },

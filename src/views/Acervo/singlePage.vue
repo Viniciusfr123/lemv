@@ -3,7 +3,7 @@
    <div class="container px-5 py-24 mx-auto">
       <div class="lg:w-4/5 mx-auto flex flex-wrap">
          <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.artifact.name || 'Api ta com problema no nome do artefato'}}</h1>
+            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.artifact.name}}</h1>
             <p class="leading-relaxed mb-4">{{state.artifact.description}}</p>
             <div>
               <h1 class="text-gray-900 text-1xl title-font font-medium mb-4"> {{'Palavras-chave'}}</h1>
@@ -12,7 +12,7 @@
          </div>
          <div class="lg:w-2/6 w-full h-auto object-cover object-center rounded">
             <div class="h-90">
-              <imagens :imgs="state.imgs"/>
+              <imagens :imgs="state.artifact.urlImages"/>
             </div>
             <skill-resume v-if="state.artifact.skill" :skill="state.artifact.skill"/>
          </div>
@@ -46,13 +46,6 @@ export default {
       const { data, errors } = await services.art.getSingle(this.id)
       if (!errors) {
         state.artifact = data.data
-        if (state.artifact.medias != null) {
-          state.artifact.medias.forEach(media => {
-            downloadImg(media.fileId)
-          })
-        } else {
-          console.log(`Não tem media ${state.img}`)
-        }
       } else {
         console.log(errors)
       }
@@ -62,27 +55,10 @@ export default {
       return lst.toString().replace(',', ', ')
     }
 
-    async function downloadImg (fileId) {
-      if (fileId) {
-        const { data, errors } = await services.file.download(fileId)
-        if (!errors) {
-          var fileURL = window.URL.createObjectURL(new Blob([data]))
-          state.imgs.push(fileURL)
-        } else {
-          console.log('result')
-          console.log(errors)
-        }
-      }
-      if (state.imgs.lenght > 2) {
-        state.imgs = state.imgs.filter(a => a === '/img/principal.aa4e4091.png')
-      }
-    }
-
     return {
       id,
       state,
       getSingleArt,
-      downloadImg,
       formatKeyWord
     }
   },

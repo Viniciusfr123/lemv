@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white w-80 max-w-3xl sm:w-full sm:p-4 h-auto sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none p-1">
     <div
-        :style="{backgroundImage: 'url(\'' +  state.img  + '\')'}"
+        :style="{ backgroundImage: `url('${img}')` }"
         class="h-52 sm:h-50 sm:w-52 rounded-xl bg-gray-100 bg-center bg-cover hidden lg:block"
     ></div>
     <div class="flex sm:flex-1 flex-col gap-2 p-1">
@@ -9,27 +9,29 @@
             {{title}}
         </h1>
         <h1 v-else class="text-lg sm:text-xl font-semibold  text-gray-600">
-            {{title !== null ? title.substr(0,50): ''}}
+            {{ title.length > 50 ? title.substring(0, 50) : title }}
         </h1>
         <p v-if="resumeON" class="text-gray-500 text-sm sm:text-base line-clamp-3">
-            {{resume.substr(0,200) + '...'}}
+            {{ resume }}
         </p>
-        <div class="flex-wrap  gap-4 mt-auto ">
-          <div v-if="resumeON">
-            <h3 class="text-sm sm:text-x1 font-semibold  text-gray-600">
-            {{'Autor'}}
-            </h3>
-            <span class='mr-auto text-brand-main flex items-center gap-1 sm:text-sm '>
-            {{details}}
-            </span>
-          </div>
-          <div v-if="resumeON" class="w-120">
+        <div class="flex flex-wrap justify-between mt-auto">
+          <div class="inline-grid grid-cols-2 gap-3">
+            <div v-if="resumeON">
               <h3 class="text-sm sm:text-x1 font-semibold  text-gray-600">
-              {{'Palavras-chave'}}
+              {{'Autor'}}
               </h3>
-              <span class='mr-auto w-20 text-brand-main flex items-center gap-1 sm:text-sm '>
-              {{tags.toString()}}
+              <span class='mr-auto text-brand-main flex items-center gap-1 sm:text-sm '>
+              {{authorName}}
               </span>
+            </div>
+            <div v-if="resumeON" class="w-120">
+                <h3 class="text-sm sm:text-x1 font-semibold  text-gray-600">
+                {{'Palavras-chave'}}
+                </h3>
+                <span class='mr-auto w-20 text-brand-main flex items-center gap-1 sm:text-sm '>
+                {{tags.toString()}}
+                </span>
+            </div>
           </div>
         <button v-on:click="pushPage()"
             class='ml-auto text-brand-main flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-gray-50 transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'>
@@ -37,14 +39,11 @@
         </button>
         </div>
     </div>
-    <img :src="state.details" />
 </div>
 </template>
 
 <script>
-import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import services from '../../services'
 
 export default {
   props: {
@@ -52,72 +51,47 @@ export default {
       default: '',
       type: String
     },
-    imgId: {
-      default: '',
+    img: {
+      default: '/img/principal.aa4e4091.png',
       type: String
     },
     resume: {
       default: '',
       type: String
     },
-    details: {
+    description: {
+      default: ''
+    },
+    authorName: {
+      default: ''
     },
     redirect: {
 
     },
     id: {
+      default: ''
     },
     resumeON: {
+      default: true
     },
-    media: null,
     tags: {
       default: []
     }
   },
   setup (props) {
-    const img = '/img/principal.aa4e4091.png'
-    const state = reactive({
-      img
-    })
     const router = useRouter()
 
     function pushPage () {
+      console.log(props)
+      console.log(props.redirect)
+      console.log(props.id)
+
       router.push({ name: props.redirect, params: { id: props.id } })
     }
 
-    async function downloadImg () {
-      if (props.media != null) {
-        const { data, errors } = await services.file.download(props.media.fileId)
-        if (!errors) {
-          var fileURL = window.URL.createObjectURL(new Blob([data]))
-          this.state.img = fileURL
-        } else {
-          console.log(errors)
-        }
-      }
-    }
-
-    async function toDownloadFile (data, format) {
-      var fileURL = window.URL.createObjectURL(new Blob([data]))
-      var fileLink = document.createElement('a')
-
-      fileLink.href = fileURL
-      fileLink.setAttribute('download', format)
-      document.body.appendChild(fileLink)
-
-      fileLink.click()
-    }
-
     return {
-      pushPage,
-      downloadImg,
-      toDownloadFile,
-      state
+      pushPage
     }
-  },
-
-  mounted () {
-    this.downloadImg()
   }
 }
 

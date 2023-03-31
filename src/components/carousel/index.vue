@@ -4,7 +4,7 @@
   "clickable": true
 }' class="mySwiper">
   <swiper-slide v-for="etapa in manual" :key="etapa.index">
-    <card :nomeEtapa="etapa.nomeEtapa" :descricao="etapa.descricao" :materiais="etapa.materiais"/>
+    <card :nomeEtapa="etapa.name" :descricao="etapa.description" :materiais="etapa.materials"/>
   </swiper-slide>
 </swiper>
 </template>
@@ -29,7 +29,6 @@ SwiperCore.use([Pagination, Navigation])
 
 export default {
   props: {
-    // manual = [{ nomeEtapa: '', descricao: '', materais: [''] }]
     manual: {}
   },
   components: {

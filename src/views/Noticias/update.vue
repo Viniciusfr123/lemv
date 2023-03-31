@@ -14,13 +14,20 @@
         />
 
         <base-input-large
-        v-model="state.news.description"
-        label="Descrição"
+        v-model="state.news.resume"
+        label="Resumo"
         />
 
         <base-input
         v-model="state.news.authorName"
         label="Nome do autor"
+        type="text"
+        />
+
+        <base-input
+        v-model="state.news.tags"
+        label="Palavras-chaves"
+        placeholder="tag, tag, tag (separado com vírgula)"
         type="text"
         />
 
@@ -32,8 +39,8 @@
         </label>
 
         <base-input-large
-        v-model="state.news.text"
-        label="Texto Principal"
+        v-model="state.news.description"
+        label="Descrição"
         />
 
         <label class="block">
@@ -67,7 +74,7 @@ import Checkbox from '../../components/Form/checkbox.vue'
 
 export default {
   components: { baseInput, baseInputLarge, selectInput, Checkbox },
-  props: ['title', 'img', 'resume', 'text', 'details', 'id', 'resumeON', 'media'],
+  props: ['title', 'img', 'resume', 'description', 'details', 'id', 'resumeON', 'urlImage'],
 
   setup (props) {
     const file = ref(null)
@@ -79,7 +86,8 @@ export default {
     const currentAbilities = [] // lista habilidades selecionadas
 
     let data
-    route.params.data != null ? data = JSON.parse(route.params.data) : data = ''
+    route.params.data != null ? data = JSON.parse(route.params.data) : data = {}
+    const partialTags = data.tags.toString() || ''
     const toast = useToast()
 
     const state = reactive({
@@ -90,14 +98,17 @@ export default {
       abilityOptions,
       currentAbilities,
       selectCompetence,
+      partialTags,
 
       news: {
         id: route.params.id,
         title: data.title,
-        description: data.resume,
+        description: data.description,
         authorName: data.details,
-        text: data.text,
+        resume: data.resume,
+        urlImage: data.urlImage,
         media: data.media,
+        tags: partialTags,
         skillId: -1,
         abilitieIds: []
       }
@@ -125,10 +136,11 @@ export default {
     }
 
     async function handleFileUpload () {
-      const { data, errors } = await services.file.upload(file.value.files)
+      const { data, errors } = await services.image.upload(file.value.files)
       if (!errors) {
+        console.log(data)
         toast.success('Imagem anexada com sucesso')
-        state.news.media = data.value
+        state.news.urlImage = data.url
       } else {
         console.log(errors)
       }
@@ -140,10 +152,10 @@ export default {
     }
 
     // verifica se os campos obrigatórios estão preenchidos
-    // e prepara o objeto para a API
+    // e preparar o objeto para a API
     function validSchema () {
       try {
-        // TODO valid schema
+        state.news.tags = state.news.tags.split(',')
         setSkillToSend()
       } catch (error) {
         toast.warning(error)
