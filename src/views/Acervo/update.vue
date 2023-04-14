@@ -99,6 +99,7 @@ export default {
         name: data.name,
         description: data.description,
         resume: data.resume,
+        urlImages: [],
         medias: [],
         skillId: -1,
         abilitieIds: [],
@@ -129,10 +130,10 @@ export default {
     }
 
     async function handleFileUpload () {
-      const { data, errors } = await services.file.upload(file.value.files)
+      const { data, errors } = await services.image.upload(file.value.files)
       if (!errors) {
         toast.success('Imagem anexada com sucesso')
-        state.artifact.medias.push(data.value)
+        state.artifact.urlImages.push(data.url)
       } else {
         console.log(errors)
       }

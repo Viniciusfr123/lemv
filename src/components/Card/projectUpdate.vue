@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white w-80 max-w-3xl sm:w-full sm:p-4 h-auto sm:h-64 rounded-2xl shadow-lg flex flex-col sm:flex-row gap-5 select-none p-1">
     <div
-        :style="{backgroundImage: 'url(\'' + state.img + '\')'}"
+        :style="{ backgroundImage: `url('${urlImage}')` }"
         class="h-52 sm:h-full sm:w-52 rounded-xl bg-gray-100 bg-center bg-cover hidden lg:block"
     ></div>
     <div class="flex sm:flex-1 flex-col gap-2 p-1">
@@ -13,7 +13,7 @@
         </p>
         <div class="flex gap-4 mt-auto">
         <span class='mr-auto text-brand-main flex items-center gap-1 sm:text-lg '>
-        {{nomeAutor}}
+        {{authorName}}
         </span>
         <button v-on:click="() => $emit('projectUpdate', $props)"
             class='ml-auto text-brand-main flex items-center gap-1 sm:text-lg border border-gray-300 px-3 py-1 rounded-full hover:bg-yellow-500 hover:text-white transition-colors focus:bg-gray-100 focus:outline-none focus-visible:border-gray-500'>
@@ -34,7 +34,7 @@ import { reactive } from 'vue'
 import services from '../../services'
 
 export default {
-  props: ['title', 'resume', 'nomeAutor', 'text', 'id', 'resumeON', 'manual', 'media'],
+  props: ['title', 'resume', 'authorName', 'description', 'id', 'resumeON', 'manual', 'media', 'urlImage'],
 
   setup (props) {
     const img = '/img/principal.aa4e4091.png'
@@ -74,7 +74,6 @@ export default {
   },
 
   mounted () {
-    this.downloadImg()
   }
 }
 

@@ -8,18 +8,18 @@
     <div class="mt-16 mx-2 md:mx-32 lg:mx-64">
       <form @submit.prevent="handleProject">
         <base-input
-        v-model="state.project.titulo"
+        v-model="state.project.title"
         label="Título"
         type="text"
         />
 
         <base-input-large
-        v-model="state.project.descricao"
-        label="Descrição"
+        v-model="state.project.resume"
+        label="Resumo"
         />
 
         <base-input
-        v-model="state.project.nomeAutor"
+        v-model="state.project.authorName"
         label="Nome do autor"
         type="text"
         />
@@ -32,7 +32,7 @@
         </label>
 
         <base-input-large
-        v-model="state.project.texto"
+        v-model="state.project.description"
         label="Texto Principal"
         />
 
@@ -47,17 +47,17 @@
           <span class="text-lg font-medium text-gray-600"> Etapa Manual </span>
           <form @submit.prevent="handleStage">
             <base-input
-            v-model="state.stageDto.nomeEtapa"
+            v-model="state.stageDto.name"
             label="Título"
             type="text"
             />
             <base-input
-            v-model="state.stageDto.descricao"
+            v-model="state.stageDto.description"
             label="Descrição"
             type="text"
             />
             <base-input
-            v-model="state.stageDto.ordem"
+            v-model="state.stageDto.order"
             label="Ordem"
             type="Number"
             />
@@ -83,7 +83,7 @@
       <span class="text-lg font-medium text-gray-600">Etapas Manual</span>
       <ul class="list-disc my-10 mb-10">
         <li v-for="stage in state.project.manual" :key="stage.ordem">
-          {{ stage.ordem }} - Nome: {{stage.nomeEtapa}}
+          {{ stage.order }} - Nome: {{stage.name}}
         </li>
       </ul>
     </div>
@@ -102,7 +102,7 @@ import Checkbox from '../../components/Form/checkbox.vue'
 
 export default {
   components: { baseInput, BaseInputLarge, selectInput, Checkbox },
-  props: ['title', 'resume', 'nomeAutor', 'text', 'id', 'resumeON', 'manual', 'media'],
+  props: ['title', 'resume', 'authorName', 'description', 'id', 'resumeON', 'manual', 'media', 'urlImage'],
 
   setup (props) {
     const file = ref(null)
@@ -122,10 +122,10 @@ export default {
       isLoading: false,
       editStage: true,
       stageDto: {
-        ordem: '',
-        nomeEtapa: '',
-        descricao: '',
-        materiais: []
+        order: '',
+        name: '',
+        description: '',
+        materials: []
       },
 
       skills,
@@ -135,11 +135,12 @@ export default {
 
       project: {
         id: data.id,
-        titulo: data.title,
-        descricao: data.resume,
-        nomeAutor: data.nomeAutor,
-        texto: data.text,
+        title: data.title,
+        description: data.description,
+        authorName: data.authorName,
+        resume: data.resume,
         media: data.media,
+        urlImage: data.urlImage,
         manual: data.manual,
         skillId: -1,
         abilitieIds: []
@@ -147,23 +148,23 @@ export default {
     })
 
     function handleStage () {
-      if (state.stageDto.ordem === '' || state.stageDto.nomeEtapa === '' || state.stageDto.nomeEtapa === '') {
+      if (state.stageDto.order === '' || state.stageDto.nomeEtapa === '' || state.stageDto.materials === []) {
         toast.warning('Todos os campos da etapa do projeto são obrigatórios')
         return
       }
-      var index = state.project.manual.findIndex((i) => i.ordem.toString() === state.stageDto.ordem)
+      var index = state.project.manual.findIndex((i) => i.order.toString() === state.stageDto.order)
       if (index !== -1) {
         state.project.manual[index] = state.stageDto
-        toast.success(`Etapa de ordem ${state.stageDto.ordem} foi atualizada`)
+        toast.success(`Etapa de ordem ${state.stageDto.order} foi atualizada`)
       } else {
         state.project.manual.push({ ...state.stageDto })
         toast.success('Nova etapa adicionada, verifique o campo "Etapas do Manual" no final da página')
       }
       state.stageDto = {
-        ordem: '',
-        nomeEtapa: '',
-        descricao: '',
-        materiais: []
+        order: '',
+        name: '',
+        description: '',
+        materials: []
       }
       state.editStage = false
     }
@@ -239,10 +240,10 @@ export default {
     }
 
     async function handleFileUpload () {
-      const { data, errors } = await services.file.upload(file.value.files)
+      const { data, errors } = await services.image.upload(file.value.files)
       if (!errors) {
         toast.success('Imagem anexada com sucesso')
-        state.project.media = data.value
+        state.project.urlImage = data.url
       } else {
         console.log(errors)
       }

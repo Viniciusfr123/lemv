@@ -98,6 +98,7 @@ export default {
         authorName: props.authorName,
         resume: props.resume,
         medias: props.medias,
+        urlImages: [],
         skillId: -1,
         abilitieIds: [],
         tags: partialTags
@@ -109,6 +110,7 @@ export default {
         toast.clear()
         state.isLoading = true
         validSchema()
+        console.log(state.artifact)
         const { data, errors } = await services.art.createOne(state.artifact)
         if (!errors) {
           state.isLoading = false
@@ -125,11 +127,12 @@ export default {
     }
 
     async function handleFileUpload () {
-      const { data, errors } = await services.file.upload(file.value.files)
+      const { data, errors } = await services.image.upload(file.value.files)
       if (!errors) {
         toast.success('Imagem anexada com sucesso')
-        state.artifact.medias.push(data.value)
+        state.artifact.urlImages.push(data.url)
       } else {
+        toast.error('Falha ao salvar a imagem')
         console.log(errors)
       }
     }

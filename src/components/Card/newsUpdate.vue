@@ -33,7 +33,6 @@
 
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import services from '../../services'
 
 export default {
   props: ['title', 'resume', 'details', 'id', 'resumeON', 'media', 'urlImage', 'description', 'tags'],
@@ -49,40 +48,13 @@ export default {
       router.push({ name: props.redirect, params: { id: props.id } })
     }
 
-    async function downloadImg () {
-      if (props.media != null) {
-        const { data, errors } = await services.file.download(props.media.fileId)
-        if (!errors) {
-          var fileURL = window.URL.createObjectURL(new Blob([data]))
-          this.state.img = fileURL
-        } else {
-          console.log('result')
-          console.log(errors)
-        }
-      }
-    }
-
-    async function toDownloadFile (data, format) {
-      var fileURL = window.URL.createObjectURL(new Blob([data]))
-      var fileLink = document.createElement('a')
-
-      fileLink.href = fileURL
-      fileLink.setAttribute('download', format)
-      document.body.appendChild(fileLink)
-
-      fileLink.click()
-    }
-
     return {
       pushPage,
-      downloadImg,
-      toDownloadFile,
       state
     }
   },
 
   mounted () {
-    this.downloadImg()
   }
 }
 

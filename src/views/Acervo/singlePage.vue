@@ -11,6 +11,14 @@
             </div>
          </div>
          <div class="lg:w-2/6 w-full h-auto object-cover object-center rounded">
+          <div class="h-64">
+            <img
+              alt="Imagem singlePage Noticia"
+              :src="state.noticia.urlImage"
+              style="width: 400px; height: 300px;"
+              class="object-cover object-center"
+            />
+          </div>
             <div class="h-90">
               <imagens :imgs="state.artifact.urlImages"/>
             </div>

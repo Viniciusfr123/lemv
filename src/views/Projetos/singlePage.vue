@@ -20,7 +20,12 @@
          </div>
          <div class="lg:w-2/6 w-full lg:h-auto object-cover object-center rounded">
             <div class="h64">
-               <img alt="Imagem project" :src="state.project.urlImage">
+               <img
+               alt="Imagem project"
+               :src="state.project.urlImage"
+               style="width: 400px; height: 300px;"
+               class="object-cover object-center"
+               >
             </div>
             <skill-resume v-if="state.project.skill" :skill="state.project.skill"/>
          </div>

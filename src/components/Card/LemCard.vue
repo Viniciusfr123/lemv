@@ -16,7 +16,7 @@
         </p>
         <div class="flex flex-wrap justify-between mt-auto">
           <div class="inline-grid grid-cols-2 gap-3">
-            <div v-if="resumeON">
+            <div v-if="resumeON && authorName != ''">
               <h3 class="text-sm sm:text-x1 font-semibold  text-gray-600">
               {{'Autor'}}
               </h3>
@@ -24,7 +24,7 @@
               {{authorName}}
               </span>
             </div>
-            <div v-if="resumeON" class="w-120">
+            <div v-if="resumeON && tags.length != 0" class="w-120">
                 <h3 class="text-sm sm:text-x1 font-semibold  text-gray-600">
                 {{'Palavras-chave'}}
                 </h3>

@@ -1,12 +1,23 @@
 
 <template>
-<swiper :navigation="true" :slidesPerView="1" :spaceBetween="30" :pagination='{
-  "clickable": true
-}' class="mySwiper">
-  <swiper-slide v-for="img in imgs" :key="img.index">
-    <img alt="Imagem singlePage artefact" :src="img">
-  </swiper-slide>
-</swiper>
+  <swiper
+    :navigation="true"
+    :slidesPerView="1"
+    :spaceBetween="30"
+    :pagination="{
+      clickable: true,
+    }"
+    class="mySwiper"
+  >
+    <swiper-slide v-for="img in imgs" :key="img.index">
+      <img
+        alt="Imagem singlePage artefact"
+        :src="img"
+        style="width: 400px; height: 300px"
+        class="object-cover object-center"
+      />
+    </swiper-slide>
+  </swiper>
 </template>
 
 <script>
