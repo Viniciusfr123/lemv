@@ -29,7 +29,14 @@
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Imagem</span>
           <div>
-            <input ref="file" v-on:change="handleFileUpload()"  type="file">
+            <input ref="image" v-on:change="handleImageUpload()"  type="file">
+          </div>
+        </label>
+
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Mídia para download</span>
+          <div>
+            <input ref="mediafile" v-on:change="handleMediaUpload()"  type="file">
           </div>
         </label>
 
@@ -72,7 +79,8 @@ export default {
   props: ['title', 'img', 'resume', 'details', 'id', 'resumeON', 'media'],
 
   setup (props) {
-    const file = ref(null)
+    const image = ref(null)
+    const mediafile = ref(null)
     const toast = useToast()
     const router = useRouter()
     const skills = []
@@ -85,7 +93,8 @@ export default {
       abilityOptions,
       currentAbilities,
       selectCompetence,
-      file: file,
+      image: image,
+      mediafile: mediafile,
       hasErrors: false,
       isLoading: false,
 
@@ -94,6 +103,7 @@ export default {
         title: props.title,
         description: props.resume,
         authorName: props.details,
+        urlImage: props.url,
         text: props.details,
         media: props.media,
         skillId: -1,
@@ -121,10 +131,20 @@ export default {
       }
     }
 
-    async function handleFileUpload () {
-      const { data, errors } = await services.file.upload(file.value.files)
+    async function handleImageUpload () {
+      const { data, errors } = await services.image.upload(image.value.files)
       if (!errors) {
         toast.success('Imagem anexada com sucesso')
+        state.news.urlImage = data.url
+      } else {
+        console.log(errors)
+      }
+    }
+
+    async function handleMediaUpload () {
+      const { data, errors } = await services.file.upload(mediafile.value.files)
+      if (!errors) {
+        toast.success('Media anexada com sucesso')
         state.news.media = data.value
       } else {
         console.log(errors)
@@ -185,8 +205,10 @@ export default {
     return {
       state,
       handleSubmit,
-      handleFileUpload,
-      file,
+      handleImageUpload,
+      handleMediaUpload,
+      image,
+      mediafile,
       getSkills,
       updateSelectCompetence,
       updateSelectAbility,

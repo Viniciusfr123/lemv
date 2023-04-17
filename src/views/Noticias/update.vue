@@ -34,7 +34,14 @@
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Imagem</span>
           <div>
-            <input ref="file" v-on:change="handleFileUpload()"  type="file">
+            <input ref="file" v-on:change="handleImageUpload()"  type="file">
+          </div>
+        </label>
+
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Mídia para download</span>
+          <div>
+            <input ref="mediafile" v-on:change="handleFileUpload()"  type="file">
           </div>
         </label>
 
@@ -78,6 +85,7 @@ export default {
 
   setup (props) {
     const file = ref(null)
+    const mediafile = ref(null)
     const route = useRoute()
     const router = useRouter()
     const skills = []
@@ -135,12 +143,23 @@ export default {
       }
     }
 
-    async function handleFileUpload () {
+    async function handleImageUpload () {
       const { data, errors } = await services.image.upload(file.value.files)
       if (!errors) {
         console.log(data)
         toast.success('Imagem anexada com sucesso')
         state.news.urlImage = data.url
+      } else {
+        console.log(errors)
+      }
+    }
+
+    async function handleFileUpload () {
+      const { data, errors } = await services.file.upload(mediafile.value.files)
+      if (!errors) {
+        console.log(data)
+        toast.success('Mídia anexada com sucesso')
+        state.news.media = data.value
       } else {
         console.log(errors)
       }
@@ -201,6 +220,8 @@ export default {
       state,
       handleSubmit,
       handleFileUpload,
+      handleImageUpload,
+      mediafile,
       ref,
       file,
       updateSelectAbility,
