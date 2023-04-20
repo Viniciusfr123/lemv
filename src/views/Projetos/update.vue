@@ -27,7 +27,14 @@
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Imagem</span>
           <div>
-            <input ref="file" v-on:change="handleFileUpload()"  type="file">
+            <input ref="file" v-on:change="handleImageUpload()"  type="file">
+          </div>
+        </label>
+
+        <label class="block">
+          <span class="text-lg font-medium text-gray-600">Mídia para download</span>
+          <div>
+            <input ref="mediafile" v-on:change="handleFileUpload()"  type="file">
           </div>
         </label>
 
@@ -106,6 +113,7 @@ export default {
 
   setup (props) {
     const file = ref(null)
+    const mediafile = ref(null)
     const route = useRoute()
     const router = useRouter()
     const toast = useToast()
@@ -239,7 +247,7 @@ export default {
       return filterByCompetence.map((i) => i.id)
     }
 
-    async function handleFileUpload () {
+    async function handleImageUpload () {
       const { data, errors } = await services.image.upload(file.value.files)
       if (!errors) {
         toast.success('Imagem anexada com sucesso')
@@ -249,12 +257,24 @@ export default {
       }
     }
 
+    async function handleFileUpload () {
+      const { data, errors } = await services.file.upload(mediafile.value.files)
+      if (!errors) {
+        toast.success('Mídia anexada com sucesso')
+        state.project.media = data.value
+      } else {
+        console.log(errors)
+      }
+    }
+
     return {
       state,
       file,
+      mediafile,
       handleStage,
       handleProject,
       handleFileUpload,
+      handleImageUpload,
       setSkillToSend,
       validSchema,
       getSkills,

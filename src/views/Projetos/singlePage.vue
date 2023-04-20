@@ -5,6 +5,7 @@
          <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.project.title}}</h1>
             <p class="leading-relaxed mb-4">{{state.project.description}}</p>
+            <download class="flex justify-end  mb-4" v-if="state.project.media!=null" :fileId="state.project.media.fileId" :format="state.project.media.format"/>
             <div class="flex border-t border-gray-200 py-2">
                <span class="text-gray-500">Autor</span>
                <span class="ml-auto text-gray-900">{{state.project.authorname}}</span>
@@ -39,8 +40,10 @@ import services from '../../services'
 import { reactive } from 'vue'
 import carousel from '../../components/carousel/index.vue'
 import skillResume from '../../components/Card/skillResume.vue'
+import Download from '../../components/Button/download.vue'
+
 export default {
-  components: { carousel, skillResume },
+  components: { carousel, skillResume, Download },
 
   setup () {
     const img = '/img/principal.aa4e4091.png'
@@ -55,6 +58,7 @@ export default {
     async function getSingleProject () {
       const { data, errors } = await services.proj.getSingle(this.id)
       if (!errors) {
+        console.log('data.data.media')
         state.project = data.data
       } else {
         console.log(errors)
