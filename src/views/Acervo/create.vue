@@ -30,7 +30,14 @@
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Imagem</span>
           <div>
-            <input ref="file" v-on:change="handleFileUpload()"  type="file">
+            <input ref="file" v-on:change="handleImageUpload()"  type="file">
+          </div>
+        </label>
+
+                <label class="block">
+          <span class="text-lg font-medium text-gray-600">Mídia para download</span>
+          <div>
+            <input ref="mediafile" v-on:change="handleFileUpload()"  type="file">
           </div>
         </label>
 
@@ -74,6 +81,7 @@ export default {
 
   setup (props) {
     const file = ref(null)
+    const mediafile = ref(null)
     const toast = useToast()
     const router = useRouter()
     const skills = []
@@ -97,7 +105,7 @@ export default {
         description: props.description,
         authorName: props.authorName,
         resume: props.resume,
-        medias: props.medias,
+        media: props.media,
         urlImages: [],
         skillId: -1,
         abilitieIds: [],
@@ -126,7 +134,7 @@ export default {
       }
     }
 
-    async function handleFileUpload () {
+    async function handleImageUpload () {
       const { data, errors } = await services.image.upload(file.value.files)
       if (!errors) {
         toast.success('Imagem anexada com sucesso')
@@ -147,7 +155,6 @@ export default {
     function validSchema () {
       try {
         state.artifact.tags = state.artifact.tags.split(',')
-        // TODO valid schema
         setSkillToSend()
       } catch (error) {
         toast.warning(error)
@@ -189,11 +196,23 @@ export default {
       return filterByCompetence.map((i) => i.id)
     }
 
+    async function handleFileUpload () {
+      const { data, errors } = await services.file.upload(mediafile.value.files)
+      if (!errors) {
+        toast.success('Arquivo anexado com sucesso')
+        state.artifact.media = data.value
+      } else {
+        console.log(errors)
+      }
+    }
+
     return {
       state,
       handleSubmit,
       handleFileUpload,
+      handleImageUpload,
       file,
+      mediafile,
       getSkills,
       updateSelectCompetence,
       updateSelectAbility,

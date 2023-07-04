@@ -7,7 +7,7 @@
             {{ state.noticia.title }}
           </h1>
           <p class="leading-relaxed mb-4">{{ state.noticia.description }}</p>
-          <download class="flex justify-end" v-if="state.noticia.media!=null" :fileId="state.noticia.media.fileId" :format="state.noticia.media.format"/>
+          <download class="flex justify-end" v-if="state.noticia.media!=null" :fileId="state.noticia.media.id" :format="state.noticia.media.format"/>
           <div class="flex border-t border-gray-200 py-2">
             <span class="text-gray-500">Autor</span>
             <span class="ml-auto text-gray-900">{{

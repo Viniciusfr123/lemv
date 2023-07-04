@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="downloadFile" class="flex items-center justify-center hover:bg-gray-300 rounded-full w-20 h-20 focus:outline-none">
+    <button @click="downloadFile" class="flex items-center justify-center hover:bg-gray-300 w-10 h-10 focus:outline-none">
       <i class="material-icons-outlined text-green-500">cloud_download</i>
     </button>
   </div>
@@ -21,7 +21,6 @@ export default {
       if (this.fileId) {
         const { data, errors } = await services.file.download(this.fileId)
         if (!errors) {
-          console.log('oi')
           const url = window.URL.createObjectURL(new Blob([data], { type: this.format }))
           const link = document.createElement('a')
           link.href = url

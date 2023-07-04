@@ -12,7 +12,7 @@
                 <router-link to="/projetos" class="font-medium text-brand-main hover:text-gray-900">Projetos</router-link>
                 <router-link to="/noticias" class="font-medium text-brand-main hover:text-gray-900">Notícias</router-link>
                 <router-link to="/acervo" class="font-medium text-brand-main hover:text-gray-900">Acervo</router-link>
-                <router-link to="/calendario" class="font-medium text-brand-main hover:text-gray-900">Calêndario</router-link>
+                <router-link to="/calendario" class="font-medium text-brand-main hover:text-gray-900">Calendário</router-link>
                 <router-link to="/Competencias" class="font-medium text-brand-main hover:text-gray-900">BNCC</router-link>
             </div>
         </nav>

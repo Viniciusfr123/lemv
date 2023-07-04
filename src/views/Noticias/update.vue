@@ -33,15 +33,17 @@
 
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Imagem</span>
-          <div>
-            <input ref="file" v-on:change="handleImageUpload()"  type="file">
+          <div class="flex flex-col">
+            <input ref="file" v-on:change="handleImageUpload()" type="file">
+            <img :src="state.news.urlImage" alt="Preview" v-if="state.news.urlImage" width="50" height="50">
           </div>
         </label>
 
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Mídia para download</span>
-          <div>
+          <div class="flex flex-col">
             <input ref="mediafile" v-on:change="handleFileUpload()"  type="file">
+            <i v-if="state.news.media" class="material-icons-outlined text-green-500">description</i>
           </div>
         </label>
 
@@ -136,10 +138,10 @@ export default {
         state.isLoading = false
       } catch (error) {
         console.error(error)
+        console.log({ send: state.news })
         state.isLoading = false
         state.hasErrors = !!error
         toast.error('Ops, ocorreu um erro ao tentar atualizar o item')
-        router.push({ name: 'AdministradorNoticias' })
       }
     }
 
@@ -236,3 +238,10 @@ export default {
 
 }
 </script>
+
+<style>
+.material-icons-outlined {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-size: 30px;
+}
+</style>

@@ -44,7 +44,7 @@ export default {
 
     async function downloadImg () {
       if (props.media != null) {
-        const { data, errors } = await services.file.download(props.media.fileId)
+        const { data, errors } = await services.file.download(props.media.id)
         if (!errors) {
           var fileURL = window.URL.createObjectURL(new Blob([data]))
           this.state.img = fileURL

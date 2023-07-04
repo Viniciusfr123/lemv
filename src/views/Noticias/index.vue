@@ -9,7 +9,7 @@
             class="field w-1/3 bg-gray-100 bg-opacity-50 rounded border border-green-300 focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             placeholder="Filtrar..."
           />
-          <card v-for="c in filterList()" :key="c.id" :title="c.title" :img="c.urlImage" :resume="c.resume" :authorName="c.authorName" :id="c.id" :redirect="redirect" resumeON="true" :tags="c.tags"/>
+          <card v-for="c in filterList()" :key="c.id" :title="c.title" :img="c.urlImage" :resume="c.resume" :description="c.description" :authorName="c.authorName" :id="c.id" :redirect="redirect" resumeON="true" :tags="c.tags"/>
         </div>
   </main>
 </template>

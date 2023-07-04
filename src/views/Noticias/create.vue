@@ -16,6 +16,11 @@
         />
 
         <base-input-large
+        v-model="state.news.resume"
+        label="Resumo"
+        />
+
+        <base-input-large
         v-model="state.news.description"
         label="Descrição"
         />
@@ -23,6 +28,13 @@
         <base-input
         v-model="state.news.authorName"
         label="Nome do autor"
+        type="text"
+        />
+
+        <base-input
+        v-model="state.news.tags"
+        label="Palavras-chaves"
+        placeholder="tag, tag, tag (separado com vírgula)"
         type="text"
         />
 
@@ -40,10 +52,6 @@
           </div>
         </label>
 
-        <base-input-large
-        v-model="state.news.text"
-        label="Texto Principal"
-        />
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Competências</span>
           <select-input :options="state.skills" @currentSelect="updateSelectCompetence($event)"/>
@@ -76,7 +84,7 @@ import Checkbox from '../../components/Form/checkbox.vue'
 
 export default {
   components: { baseInput, baseInputLarge, selectInput, Checkbox },
-  props: ['title', 'img', 'resume', 'details', 'id', 'resumeON', 'media'],
+  props: ['title', 'img', 'resume', 'details', 'id', 'resumeON', 'media', 'description'],
 
   setup (props) {
     const image = ref(null)
@@ -101,10 +109,11 @@ export default {
       news: {
         id: props.id,
         title: props.title,
-        description: props.resume,
-        authorName: props.details,
+        resume: props.resume,
+        description: props.description,
+        authorName: props.authorName,
         urlImage: props.url,
-        text: props.details,
+        tags: props.tags,
         media: props.media,
         skillId: -1,
         abilitieIds: []
@@ -116,6 +125,7 @@ export default {
         toast.clear()
         state.isLoading = true
         validSchema()
+        console.log(state.news)
         const { data, errors } = await services.news.createOne(state.news)
         if (!errors) {
           state.isLoading = false
@@ -124,6 +134,7 @@ export default {
         }
         state.isLoading = false
       } catch (error) {
+        console.log(state.news)
         state.isLoading = false
         state.hasErrors = !!error
         toast.error('Ops, ocorreu um erro ao tentar criar o item')
@@ -160,7 +171,7 @@ export default {
     // e prepara o objeto para a API
     function validSchema () {
       try {
-        // TODO valid schema
+        state.news.tags = state.news.tags.split(',')
         setSkillToSend()
       } catch (error) {
         toast.warning(error)

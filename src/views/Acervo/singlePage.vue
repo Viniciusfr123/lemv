@@ -5,6 +5,7 @@
          <div class="lg:w-4/6 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
             <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{state.artifact.name}}</h1>
             <p class="leading-relaxed mb-4">{{state.artifact.description}}</p>
+             <download class="flex justify-end  mb-4" v-if="state.artifact.media!=null" :fileId="state.artifact.media.id" :format="state.artifact.media.format"/>
             <div>
               <h1 class="text-gray-900 text-1xl title-font font-medium mb-4"> {{'Palavras-chave'}}</h1>
               <p class="leading-relaxed mb-4">{{state.artifact.tags ? formatKeyWord(state.artifact.tags) : ''}}</p>
@@ -28,9 +29,10 @@ import skillResume from '../../components/Card/skillResume.vue'
 
 import services from '../../services'
 import Imagens from '../../components/carousel/imagens.vue'
+import Download from '../../components/Button/download.vue'
 
 export default {
-  components: { skillResume, Imagens },
+  components: { skillResume, Imagens, Download },
 
   setup () {
     const route = useRoute()
@@ -44,6 +46,7 @@ export default {
 
     async function getSingleArt () {
       const { data, errors } = await services.art.getSingle(this.id)
+      console.log(data)
       if (!errors) {
         state.artifact = data.data
       } else {
