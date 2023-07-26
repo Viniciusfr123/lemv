@@ -34,7 +34,7 @@ import { reactive } from 'vue'
 import services from '../../services'
 
 export default {
-  props: ['title', 'resume', 'authorName', 'description', 'id', 'resumeON', 'manual', 'media', 'urlImage'],
+  props: ['title', 'resume', 'authorName', 'description', 'id', 'resumeON', 'manual', 'media', 'urlImage', 'tags', 'skill'],
 
   setup (props) {
     const img = '/img/principal.aa4e4091.png'

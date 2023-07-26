@@ -42,6 +42,7 @@
           <span class="text-lg font-medium text-gray-600">Imagem</span>
           <div>
             <input ref="image" v-on:change="handleImageUpload()"  type="file">
+            <img :src="state.news.urlImage" alt="Preview" v-if="state.news.urlImage" width="50" height="50">
           </div>
         </label>
 
@@ -49,6 +50,7 @@
           <span class="text-lg font-medium text-gray-600">Mídia para download</span>
           <div>
             <input ref="mediafile" v-on:change="handleMediaUpload()"  type="file">
+            <i v-if="state.news.media" class="material-icons-outlined text-green-500">description</i>
           </div>
         </label>
 
@@ -235,3 +237,10 @@ export default {
 
 }
 </script>
+
+<style>
+.material-icons-outlined {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-size: 30px;
+}
+</style>

@@ -39,4 +39,8 @@ export default {
     @apply bg-brand-gray w-full flex justify-center;
     height: 89px;
 }
+.material-icons-outlined {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-size: 30px;
+}
 </style>

@@ -31,6 +31,11 @@
           <span class="text-lg font-medium text-gray-600">Imagem</span>
           <div>
             <input ref="file" v-on:change="handleImageUpload()"  type="file">
+              <img
+              :src="urlImage"
+              alt="Preview" v-for="urlImage in state.artifact.urlImages"
+              :key="urlImage"
+              width="50" height="50">
           </div>
         </label>
 
@@ -38,12 +43,13 @@
           <span class="text-lg font-medium text-gray-600">Mídia para download</span>
           <div>
             <input ref="mediafile" v-on:change="handleFileUpload()"  type="file">
+              <i v-if="state.artifact.media" class="material-icons-outlined text-green-500">description</i>
           </div>
         </label>
 
         <base-input-large
         v-model="state.artifact.description"
-        label="Texto Principal"
+        label="Descrição"
         />
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Competências</span>

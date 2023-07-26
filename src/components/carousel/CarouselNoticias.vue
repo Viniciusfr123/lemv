@@ -1,12 +1,25 @@
 
 <template>
-<swiper :navigation="true" :slidesPerView="4" :spaceBetween="30" :pagination='{
-  "clickable": true
-}' class="mySwiper">
-  <swiper-slide v-for="noticia in noticias" :key="noticia.index">
-    <card :media="noticia.media" :title="noticia.title" :img="noticia.urlImage" :details="noticia.date" :resume="noticia.description" :id="noticia.id" redirect="NoticiaSinglePage" />
-  </swiper-slide>
-</swiper>
+  <swiper
+    :navigation="true"
+    :slidesPerView="getSlidesPerView()"
+    :spaceBetween="30"
+    :pagination='{ "clickable": true }'
+    class="mySwiper"
+  >
+    <swiper-slide v-for="noticia in noticias" :key="noticia.index">
+      <card
+        :media="noticia.media"
+        :title="noticia.title"
+        :img="noticia.urlImage"
+        :details="noticia.date"
+        :resume="noticia.description"
+        :id="noticia.id"
+        :resumeON="false"
+        redirect="NoticiaSinglePage"
+      />
+    </swiper-slide>
+  </swiper>
 </template>
 
 <script>
@@ -36,9 +49,21 @@ export default {
     SwiperSlide,
     Card
   },
-  mounted () {
-  }
+  methods: {
+    getSlidesPerView () {
+      const screenWidth = window.innerWidth
 
+      if (screenWidth >= 1200) {
+        return 4
+      } else if (screenWidth >= 992) {
+        return 3
+      } else if (screenWidth >= 768) {
+        return 2
+      } else {
+        return 1
+      }
+    }
+  }
 }
 </script>
 <style scoped>

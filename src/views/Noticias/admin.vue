@@ -23,6 +23,7 @@
           :urlImage="c.urlImage"
           :tags="c.tags"
           :id="c.id"
+          :skill="c.skill"
           resumeON="true"
           @newsUpdate="pushtoUpdateNews($event.id, $event)"
           @newsDelete="deleteNews($event)"

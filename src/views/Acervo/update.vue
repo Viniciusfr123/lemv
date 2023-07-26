@@ -29,6 +29,11 @@
           <span class="text-lg font-medium text-gray-600">Imagem</span>
           <div>
             <input ref="file" v-on:change="handleImageUpload()"  type="file">
+              <img
+              :src="urlImage"
+              alt="Preview" v-for="urlImage in state.artifact.urlImages"
+              :key="urlImage"
+              width="50" height="50">
           </div>
         </label>
 
@@ -36,6 +41,7 @@
           <span class="text-lg font-medium text-gray-600">Mídia para download</span>
           <div>
             <input ref="mediafile" v-on:change="handleFileUpload()"  type="file">
+              <i v-if="state.artifact.media" class="material-icons-outlined text-green-500">description</i>
           </div>
         </label>
 
@@ -107,8 +113,8 @@ export default {
         name: data.name,
         description: data.description,
         resume: data.resume,
-        urlImages: [],
-        media: null,
+        urlImages: data.urlImages,
+        media: data.media,
         skillId: -1,
         abilitieIds: [],
         tags: partialTags
@@ -160,6 +166,14 @@ export default {
     function setSkillToSend () {
       state.artifact.skillId = state.selectCompetence.id
       state.artifact.abilitieIds = filterAbilityIds()
+      if (state.artifact.abilitieIds.length === 0) {
+        console.log(data.skill)
+        if (data.skill) {
+          const currentAbilities = data.skill.abilities.map((i) => i.id)
+          state.artifact.skillId = data.skill.id
+          state.artifact.abilitieIds = currentAbilities
+        }
+      }
     }
 
     // verifica se os campos obrigatórios estão preenchidos

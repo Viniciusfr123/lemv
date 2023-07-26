@@ -23,6 +23,8 @@
           :authorName="c.authorName"
           :description="c.description"
           :manual="c.manual"
+          :tags="c.tags"
+          :skill="c.skill"
           resumeON="true"
           @ProjectUpdate="pushtoUpdateProject($event.id, $event)"
           @ProjectDelete="deleteProject($event)"

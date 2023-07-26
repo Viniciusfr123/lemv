@@ -10,7 +10,7 @@
 import services from '../../services'
 
 export default {
-  props: ['fileId', 'format'],
+  props: ['fileId', 'format', 'name'],
   data () {
     return {
       // Adicione outras propriedades se necessário
@@ -24,7 +24,7 @@ export default {
           const url = window.URL.createObjectURL(new Blob([data], { type: this.format }))
           const link = document.createElement('a')
           link.href = url
-          link.setAttribute('download', 'lemvFile') // nome do arquivo que será baixado
+          link.setAttribute('download', this.name)
           document.body.appendChild(link)
           link.click()
           document.body.removeChild(link)

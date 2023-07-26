@@ -11,7 +11,7 @@ import ArtifactService from './artifact'
 import ImageService from './image'
 
 const httpClient = axios.create({
-  baseURL: 'https://localhost:5052/api/'
+  baseURL: 'https://lemv-api-3a2b7138a95f.herokuapp.com/api/'
 })
 
 httpClient.interceptors.response.use((response) => {

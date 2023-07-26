@@ -24,10 +24,18 @@
         type="text"
         />
 
+        <base-input
+        v-model="state.project.tags"
+        label="Palavras-chaves"
+        placeholder="tag, tag, tag (separado com vírgula)"
+        type="text"
+        />
+
         <label class="block">
           <span class="text-lg font-medium text-gray-600">Imagem</span>
           <div>
             <input ref="file" v-on:change="handleImageUpload()"  type="file">
+              <img :src="state.project.urlImage" alt="Preview" v-if="state.project.urlImage" width="50" height="50">
           </div>
         </label>
 
@@ -35,6 +43,7 @@
           <span class="text-lg font-medium text-gray-600">Mídia para download</span>
           <div>
             <input ref="mediafile" v-on:change="handleFileUpload()"  type="file">
+              <i v-if="state.project.media" class="material-icons-outlined text-green-500">description</i>
           </div>
         </label>
 
@@ -50,33 +59,45 @@
           <checkbox :options="state.abilityOptions" @updateState="updateSelectAbility($event)"/>
         </label>
 
-        <div class="mt-4 mx-4">
+        <div class="mt-4 mx-4 flex">
+        <div class="w-1/2">
           <span class="text-lg font-medium text-gray-600"> Etapa Manual </span>
-          <form @submit.prevent="handleStage">
-            <base-input
-            v-model="state.stageDto.name"
-            label="Título"
-            type="text"
-            />
-            <base-input
-            v-model="state.stageDto.description"
-            label="Descrição"
-            type="text"
-            />
-            <base-input
-            v-model="state.stageDto.order"
-            label="Ordem"
-            type="Number"
-            />
+          <div>
+            <form @submit.prevent="handleStage">
+              <base-input
+              v-model="state.stageDto.name"
+              label="Título"
+              type="text"
+              />
+              <base-input-large
+              v-model="state.stageDto.description"
+              label="Descrição"
+              type="text"
+              />
+              <base-input
+              v-model="state.stageDto.order"
+              label="Ordem"
+              type="Number"
+              />
 
-            <button :disabled="state.isLoading"
-            type="submit"
-            :class="{'opacity-50': state.isLoading}"
-            class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-red-400 focus:outline-nome"
-            >
-            Add etapa
-            </button>
-          </form>
+              <button :disabled="state.isLoading"
+              type="submit"
+              :class="{'opacity-50': state.isLoading}"
+              class="px-8 py-3 mt-10 text-2x1 font-bold text-white rounded bg-red-400 focus:outline-nome"
+              >
+              Add etapa
+              </button>
+            </form>
+              </div>
+          </div>
+          <div class="w-1/2 ml-10">
+                  <span class="text-lg font-medium text-gray-600">Pré Visualização</span>
+      <ul class="list-disc my-10 mb-10">
+        <li v-for="stage in state.project.manual" :key="stage.order">
+          {{ stage.order }} - Nome: {{stage.name}}
+        </li>
+      </ul>
+          </div>
         </div>
 
         <button :disabled="state.isLoading"
@@ -87,12 +108,6 @@
           Atualizar
         </button>
       </form>
-      <span class="text-lg font-medium text-gray-600">Etapas Manual</span>
-      <ul class="list-disc my-10 mb-10">
-        <li v-for="stage in state.project.manual" :key="stage.ordem">
-          {{ stage.order }} - Nome: {{stage.name}}
-        </li>
-      </ul>
     </div>
   </div>
 </template>
@@ -109,7 +124,7 @@ import Checkbox from '../../components/Form/checkbox.vue'
 
 export default {
   components: { baseInput, BaseInputLarge, selectInput, Checkbox },
-  props: ['title', 'resume', 'authorName', 'description', 'id', 'resumeON', 'manual', 'media', 'urlImage'],
+  props: ['title', 'resume', 'authorName', 'description', 'id', 'resumeON', 'manual', 'media', 'urlImage', 'skill'],
 
   setup (props) {
     const file = ref(null)
@@ -124,6 +139,8 @@ export default {
 
     let data
     route.params.data != null ? data = JSON.parse(route.params.data) : data = ''
+    console.log(data)
+    const partialTags = data.tags.toString() || ''
 
     const state = reactive({
       hasErrors: false,
@@ -147,10 +164,11 @@ export default {
         description: data.description,
         authorName: data.authorName,
         resume: data.resume,
+        tags: partialTags,
         media: data.media,
         urlImage: data.urlImage,
         manual: data.manual,
-        skillId: -1,
+        skillId: data.skill != null ? data.skill.id : '',
         abilitieIds: []
       }
     })
@@ -180,7 +198,7 @@ export default {
     async function handleProject () {
       try {
         validSchema()
-        console.log({ project: JSON.stringify(state.project) })
+        console.log(state.project)
         const { data, errors } = await services.proj.updateOne(state.project)
         if (!errors) {
           state.isLoading = false
@@ -199,13 +217,21 @@ export default {
     function setSkillToSend () {
       state.project.skillId = state.selectCompetence.id
       state.project.abilitieIds = filterAbilityIds()
+      if (state.project.abilitieIds.length === 0) {
+        console.log(data.skill)
+        if (data.skill) {
+          const currentAbilities = data.skill.abilities.map((i) => i.id)
+          state.project.skillId = data.skill.id
+          state.project.abilitieIds = currentAbilities
+        }
+      }
     }
 
     // verifica se os campos obrigatórios estão preenchidos
     // e prepara o objeto para a API
     function validSchema () {
       try {
-        // TODO valid schema
+        state.project.tags = state.project.tags.split(',')
         setSkillToSend()
       } catch (error) {
         toast.warning(error)

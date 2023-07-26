@@ -35,7 +35,7 @@ import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
 export default {
-  props: ['title', 'resume', 'details', 'id', 'resumeON', 'media', 'urlImage', 'description', 'tags'],
+  props: ['title', 'resume', 'details', 'id', 'resumeON', 'media', 'urlImage', 'description', 'tags', 'skill'],
 
   setup (props) {
     const img = '/img/principal.aa4e4091.png'

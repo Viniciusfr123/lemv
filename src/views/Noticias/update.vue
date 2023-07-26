@@ -170,6 +170,14 @@ export default {
     function setSkillToSend () {
       state.news.skillId = state.selectCompetence.id
       state.news.abilitieIds = filterAbilityIds()
+      if (state.news.abilitieIds.length === 0) {
+        console.log(data.skill)
+        if (data.skill) {
+          const currentAbilities = data.skill.abilities.map((i) => i.id)
+          state.news.skillId = data.skill.id
+          state.news.abilitieIds = currentAbilities
+        }
+      }
     }
 
     // verifica se os campos obrigatórios estão preenchidos
